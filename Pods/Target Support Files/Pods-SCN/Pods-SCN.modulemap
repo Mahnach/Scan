@@ -1,0 +1,6 @@
+framework module Pods_SCN {
+  umbrella header "Pods-SCN-umbrella.h"
+
+  export *
+  module * { export * }
+}
