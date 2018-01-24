@@ -11,26 +11,27 @@ import UIKit
 class DisplayTimeVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var choosenTime: UILabel!
     
+    var choosenTime: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
         switch RealmService.getDisplayTime()[0].displayTime {
         case 259200:
-            choosenTime.text = "3 days"
+            choosenTime = "3 days"
         case 604800:
-            choosenTime.text = "1 week"
+            choosenTime = "1 week"
         case 1209600:
-            choosenTime.text = "2 weeks"
+            choosenTime = "2 weeks"
         case 2419200:
-            choosenTime.text = "1 month"
+            choosenTime = "1 month"
         case -1:
-            choosenTime.text = "All documents"
+            choosenTime = "All documents"
         default:
-            choosenTime.text = "3 days"
+            choosenTime = "3 days"
         }
     }
 
@@ -65,8 +66,10 @@ class DisplayTimeVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         default:
             break
         }
+        if cell.displayOption.text == choosenTime {
+            cell.accessoryType = UITableViewCellAccessoryType.checkmark
+        }
         return cell
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

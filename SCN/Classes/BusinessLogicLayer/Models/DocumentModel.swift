@@ -17,6 +17,7 @@ class DocumentModel: Object{
     @objc dynamic var createDate: String?
     @objc dynamic var date: Date?
     @objc dynamic var documentName: String?
+    @objc dynamic var userLogin: String?
     @objc dynamic var status = false
 
     override static func primaryKey() -> String? {
@@ -24,7 +25,7 @@ class DocumentModel: Object{
     }
     
     func incrementID() -> Int {
-        let realm = try! Realm()
+        let realm = RealmService.realm
         return (realm.objects(DocumentModel.self).max(ofProperty: "id") as Int? ?? 0) + 1
     }
 }

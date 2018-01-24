@@ -15,7 +15,7 @@ import SWXMLHash
 class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
 
     @IBOutlet weak var stepOneView: UIView!
-    let realm = try! Realm()
+    let realm = RealmService.realm
     
     lazy var reader: QRCodeReader = QRCodeReader()
     lazy var readerVC: QRCodeReaderViewController = {
@@ -73,6 +73,7 @@ class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
                 let documentInstance = DocumentModel()
                 let id = documentInstance.incrementID()
                 documentInstance.id = id
+                documentInstance.userLogin = RealmService.getLoginModel()[0].login!
                 RealmService.writeIntoRealm(object: documentInstance)
                 let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                 let StartWorkViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kStartWorkViewController") as! StartWorkVC
@@ -102,6 +103,7 @@ class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
                 qrInstance.studentName = xmlQR["data"]["StudentName"].element?.text
                 qrInstance.studentId = xmlQR["data"]["StudentId"].element?.text
                 qrInstance.eventId = xmlQR["data"]["EventId"].element?.text
+                qrInstance.customer = xmlQR["data"]["Customer"].element?.text
                 if let _ = xmlQR["data"]["EventId"].element?.text {
                     qrInstance.isValid = true
                 }

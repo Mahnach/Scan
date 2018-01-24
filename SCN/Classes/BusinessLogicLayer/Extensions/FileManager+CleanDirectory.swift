@@ -13,6 +13,7 @@ extension FileManager {
         do {
             let fileName = NSTemporaryDirectory()+documentName
             try self.removeItem(atPath: fileName)
+            print("removingDocument:\(fileName)")
         } catch {
             print(error)
         }

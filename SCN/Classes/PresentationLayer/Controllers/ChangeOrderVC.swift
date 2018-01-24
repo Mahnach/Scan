@@ -15,7 +15,7 @@ class ChangeOrderVC: UIViewController, UICollectionViewDataSource, UICollectionV
     @IBOutlet weak var collectionView: UICollectionView!
     fileprivate var longPressGesture: UILongPressGestureRecognizer!
     
-    let realm = try! Realm()
+    let realm = RealmService.realm
     var imagesArray = [UIImage]()
     let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
     

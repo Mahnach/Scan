@@ -29,7 +29,9 @@ class LoginRequest {
             Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .validate()
                 .responseJSON{ (response) in
+
                     let statusCode = response.response?.statusCode
+
                     if statusCode == 404 || statusCode == 1001 {
                         completion(false, 404)
                     }

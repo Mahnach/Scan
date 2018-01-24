@@ -11,6 +11,7 @@ import RealmSwift
 
 class QRCodeModel: Object{
     @objc dynamic var qrCode: String?
+    @objc dynamic var customer: String?
     @objc dynamic var eventName: String?
     @objc dynamic var formName: String?
     @objc dynamic var studentName: String?
@@ -18,3 +19,6 @@ class QRCodeModel: Object{
     @objc dynamic var isValid = false
     @objc dynamic var eventId: String?
 }
+
+
+

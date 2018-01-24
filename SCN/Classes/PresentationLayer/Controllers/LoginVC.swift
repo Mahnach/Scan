@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import Reachability
 
 class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, UIPickerViewDelegate{
     
@@ -21,12 +22,14 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     @IBOutlet weak var inputPasswordView: UIView!
     @IBOutlet weak var dropDownLabel: UILabel!
 
+    let reachability = Reachability()!
+    let realm = RealmService.realm
 
     // MARK: - Navigation
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hideKeyboardWhenTappedAround()
-        defaultSettings()
+        view.isUserInteractionEnabled = true
         welcomeView.layer.cornerRadius = 20
         activityIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         welcomeView.layer.masksToBounds = true
@@ -37,23 +40,15 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
         websiteInput.attributedPlaceholder = setLetterSpacing(placeholder: websiteInput.placeholder!)
         userNameInput.attributedPlaceholder = setLetterSpacing(placeholder: userNameInput.placeholder!)
         passwordInput.attributedPlaceholder = setLetterSpacing(placeholder: passwordInput.placeholder!)
-        
-        if RealmService.getDocumentData().count > 0 {
-            if (RealmService.getDocumentData().last?.imageArrayData.isEmpty)! || !(RealmService.getDocumentData().last?.isGenerated)! {
-                RealmService.deleteLastDocument()
-            }
-        }
-        if RealmService.getWebSiteModel().count > 0 {
-            websiteInput.text = RealmService.getWebSiteModel().first?.websiteUrl!
-        }
-        if LoginModel.tokenIsValid() {
-            pushCorrectController()
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("Unable to start notifier")
         }
         websiteInput.delegate = self
         userNameInput.delegate = self
         passwordInput.delegate = self
-
-  
+        preparingApplication()
     }
     
     override func didReceiveMemoryWarning() {
@@ -86,25 +81,28 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     func siteIsValid(siteName: String) -> Bool {
         var isValid = false
         switch siteName {
-        case "dc-demo.accelidemo.com":
-            isValid = true
-            break
         case "washoe-demo.accelidemo.com":
             isValid = true
             break
-        case "dc.acceliplan.com":
+        case "washoe.acceliqc.com":
             isValid = true
             break
-        case "hampton.acceliplan.com":
+        case "dc-demo.accelidemo.com":
+            isValid = true
+            break
+        case "dc.acceliqc.com":
             isValid = true
             break
         case "dade-demo.accelidemo.com":
             isValid = true
             break
-        case "washoe.acceliplan.com":
+        case "dade.acceliqc.com":
             isValid = true
             break
-        case "washoe.acceliqc.com":
+        case "broward-demo.accelidemo.com":
+            isValid = true
+            break
+        case "broward.acceliqc.com":
             isValid = true
             break
         default:
@@ -115,10 +113,15 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     }
     
     @IBAction func LoginAction(_ sender: UIButton) {
+        if reachability.connection == .none {
+            popupWarning(titleMessage: "Warning", describing: "No internet Connection")
+        } else {
         activityIndicator.startAnimating()
+        view.isUserInteractionEnabled = false
         let siteName = websiteInput.text
         if (websiteInput.text?.isEmpty)! || (userNameInput.text?.isEmpty)! || (passwordInput.text?.isEmpty)! {
             activityIndicator.stopAnimating()
+            self.view.isUserInteractionEnabled = true
             popupWarning(titleMessage: "Warning", describing: "All fields are required")
         } else {
             let isValid = siteIsValid(siteName: siteName!)
@@ -130,14 +133,18 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
                 LoginRequest.loginRequest(login: userNameInput.text!, password: passwordInput.text!){ (completion, code) in
                     switch completion {
                     case true:
+                        self.addNewSite()
+                        self.addNewLogin()
                         self.pushCorrectController()
                         break
                     case false:
                         if code == 404 {
                             self.activityIndicator.stopAnimating()
+                            self.view.isUserInteractionEnabled = true
                             self.popupWarning(titleMessage: "Server error", describing: "Please, try again later.")
                         } else {
                             self.activityIndicator.stopAnimating()
+                            self.view.isUserInteractionEnabled = true
                             self.popupWarning(titleMessage: "Warning", describing: "User not found.")
                         }
                         break
@@ -145,11 +152,41 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
                 }
             } else {
                 activityIndicator.stopAnimating()
+                view.isUserInteractionEnabled = true
                 popupWarning(titleMessage: "Warning", describing: "Website is incorrect")
             }
         }
+        }
     }
 
+    func addNewLogin() {
+        if RealmService.getDefaultUserName().count > 0{
+            if RealmService.getDefaultUserName()[0].isDefault {
+                RealmService.deleteDefaultUserName()
+                let defaultUserNameInstance = DefaultUserNameModel()
+                defaultUserNameInstance.isDefault = true
+                defaultUserNameInstance.savedLogin = RealmService.getLoginModel()[0].login!
+                RealmService.writeIntoRealm(object: defaultUserNameInstance)
+            }
+        }
+    }
+    
+    func addNewSite() {
+        if RealmService.getSettingsSitesModel().count == 0 {
+            let settingsSiteInstance = SettingsSitesModel()
+            settingsSiteInstance.siteName = websiteInput.text!
+            RealmService.writeIntoRealm(object: settingsSiteInstance)
+        } else {
+            let PDFInstance = realm.objects(SettingsSitesModel.self).filter("siteName = '"+RealmService.getWebSiteModel()[0].websiteUrl!+"'")
+            print(PDFInstance)
+            if PDFInstance.count == 0 {
+                let settingsSiteInstance = SettingsSitesModel()
+                settingsSiteInstance.siteName = RealmService.getWebSiteModel()[0].websiteUrl!
+                RealmService.writeIntoRealm(object: settingsSiteInstance)
+            }
+        }
+    }
+    
     func pushCorrectController() {
         if RealmService.getDocumentData().count != 0{
             let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -159,6 +196,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
             let documentInstance = DocumentModel()
             let id = documentInstance.incrementID()
             documentInstance.id = id
+            documentInstance.userLogin = RealmService.getLoginModel()[0].login!
             RealmService.writeIntoRealm(object: documentInstance)
             
             let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -166,11 +204,29 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
             navigationController?.pushViewController(StartWorkViewController, animated: false)
         }
     }
-    
-    func defaultSettings() {
-        let displayTimeInstance = DisplayTimeModel()
-        displayTimeInstance.displayTime = 259200
-        RealmService.writeIntoRealm(object: displayTimeInstance)
+    func preparingApplication() {
+        if RealmService.getDefaultUserName().count > 0{
+            if RealmService.getDefaultUserName()[0].isDefault {
+                userNameInput.text = RealmService.getDefaultUserName()[0].savedLogin!
+            }
+        }
+        if RealmService.getDisplayTime().count == 0 {
+            let displayTimeInstance = DisplayTimeModel()
+            displayTimeInstance.displayTime = 259200
+            RealmService.writeIntoRealm(object: displayTimeInstance)
+        }
+        if RealmService.getDocumentData().count > 0 {
+            if (RealmService.getDocumentData().last?.imageArrayData.isEmpty)! || !(RealmService.getDocumentData().last?.isGenerated)! {
+                RealmService.deleteLastDocument()
+            }
+        }
+        if RealmService.getWebSiteModel().count > 0 {
+            websiteInput.text = RealmService.getWebSiteModel().first?.websiteUrl!
+        }
+        if LoginModel.tokenIsValid() {
+            pushCorrectController()
+        }
+        
     }
     
     func popupWarning(titleMessage: String, describing: String) {

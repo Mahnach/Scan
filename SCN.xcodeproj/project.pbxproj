@@ -23,6 +23,7 @@
 		FB455A93200C9689009D747E /* DisplayTimeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB455A92200C9689009D747E /* DisplayTimeVC.swift */; };
 		FB455A95200C9E6E009D747E /* DIsplayTimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB455A94200C9E6E009D747E /* DIsplayTimeTableViewCell.swift */; };
 		FB455A9A200CA287009D747E /* DisplayTimeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB455A99200CA287009D747E /* DisplayTimeModel.swift */; };
+		FB456605200F81A30051DFFA /* DocumentNameGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB456604200F81A30051DFFA /* DocumentNameGenerator.swift */; };
 		FB4838C41FE946560049FFB9 /* CurrentSessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4838C31FE946560049FFB9 /* CurrentSessionModel.swift */; };
 		FB55B3001FE31C84008408B9 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB55B2FF1FE31C84008408B9 /* RealmService.swift */; };
 		FB55B3031FE31CC4008408B9 /* QRCodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB55B3021FE31CC4008408B9 /* QRCodeModel.swift */; };
@@ -36,6 +37,7 @@
 		FB7FC1C41FFF885300D0EFC4 /* PDFReaderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7FC1C31FFF885300D0EFC4 /* PDFReaderVC.swift */; };
 		FB862B5220089E0C003BFAD6 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB862B5120089E0C003BFAD6 /* LoginRequest.swift */; };
 		FB862B542008A865003BFAD6 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB862B532008A865003BFAD6 /* LoginModel.swift */; };
+		FB9870F020121738006C0681 /* PDFHistoryVC(OLD).swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9870EF20121738006C0681 /* PDFHistoryVC(OLD).swift */; };
 		FB9EEA6D20037EE400D2C3BE /* ChangeOrderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9EEA6C20037EE400D2C3BE /* ChangeOrderVC.swift */; };
 		FB9EEA6F2003828400D2C3BE /* OrderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9EEA6E2003828400D2C3BE /* OrderCollectionViewCell.swift */; };
 		FBA8151A1FFD29CC00796480 /* PDFSendingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA815191FFD29CC00796480 /* PDFSendingRequest.swift */; };
@@ -43,6 +45,10 @@
 		FBF2A6DB200CD2FF0000DD40 /* DefaultSiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF2A6DA200CD2FF0000DD40 /* DefaultSiteVC.swift */; };
 		FBF2A6DD200CDD680000DD40 /* SettingsSitesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF2A6DC200CDD680000DD40 /* SettingsSitesModel.swift */; };
 		FBF2A6E7200CEFEB0000DD40 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF2A6E6200CEFEB0000DD40 /* SettingsVC.swift */; };
+		FBF2A6E9200CFFFC0000DD40 /* SiteNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF2A6E8200CFFFC0000DD40 /* SiteNameTableViewCell.swift */; };
+		FBF2A6EB200D08FB0000DD40 /* SaveUserNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF2A6EA200D08FB0000DD40 /* SaveUserNameVC.swift */; };
+		FBF2A6ED200D09320000DD40 /* SaveUserNameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF2A6EC200D09320000DD40 /* SaveUserNameTableViewCell.swift */; };
+		FBF2A6EF200D0E990000DD40 /* DefaultUserNameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF2A6EE200D0E990000DD40 /* DefaultUserNameModel.swift */; };
 		FBF77F2B1FEBC2D400B07161 /* UIViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF77F2A1FEBC2D400B07161 /* UIViewController+Keyboard.swift */; };
 		FBF77F2D1FEBC31E00B07161 /* FileManager+CleanDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF77F2C1FEBC31E00B07161 /* FileManager+CleanDirectory.swift */; };
 /* End PBXBuildFile section */
@@ -66,6 +72,7 @@
 		FB455A92200C9689009D747E /* DisplayTimeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayTimeVC.swift; sourceTree = "<group>"; };
 		FB455A94200C9E6E009D747E /* DIsplayTimeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIsplayTimeTableViewCell.swift; sourceTree = "<group>"; };
 		FB455A99200CA287009D747E /* DisplayTimeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayTimeModel.swift; sourceTree = "<group>"; };
+		FB456604200F81A30051DFFA /* DocumentNameGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentNameGenerator.swift; sourceTree = "<group>"; };
 		FB4838C31FE946560049FFB9 /* CurrentSessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSessionModel.swift; sourceTree = "<group>"; };
 		FB55B2FF1FE31C84008408B9 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		FB55B3021FE31CC4008408B9 /* QRCodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeModel.swift; sourceTree = "<group>"; };
@@ -81,6 +88,7 @@
 		FB7FC1C31FFF885300D0EFC4 /* PDFReaderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFReaderVC.swift; sourceTree = "<group>"; };
 		FB862B5120089E0C003BFAD6 /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
 		FB862B532008A865003BFAD6 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		FB9870EF20121738006C0681 /* PDFHistoryVC(OLD).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PDFHistoryVC(OLD).swift"; sourceTree = "<group>"; };
 		FB9EEA6C20037EE400D2C3BE /* ChangeOrderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeOrderVC.swift; sourceTree = "<group>"; };
 		FB9EEA6E2003828400D2C3BE /* OrderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCollectionViewCell.swift; sourceTree = "<group>"; };
 		FBA815171FFCFF0A00796480 /* SCN.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SCN.entitlements; sourceTree = "<group>"; };
@@ -89,6 +97,10 @@
 		FBF2A6DA200CD2FF0000DD40 /* DefaultSiteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSiteVC.swift; sourceTree = "<group>"; };
 		FBF2A6DC200CDD680000DD40 /* SettingsSitesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSitesModel.swift; sourceTree = "<group>"; };
 		FBF2A6E6200CEFEB0000DD40 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		FBF2A6E8200CFFFC0000DD40 /* SiteNameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteNameTableViewCell.swift; sourceTree = "<group>"; };
+		FBF2A6EA200D08FB0000DD40 /* SaveUserNameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveUserNameVC.swift; sourceTree = "<group>"; };
+		FBF2A6EC200D09320000DD40 /* SaveUserNameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveUserNameTableViewCell.swift; sourceTree = "<group>"; };
+		FBF2A6EE200D0E990000DD40 /* DefaultUserNameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserNameModel.swift; sourceTree = "<group>"; };
 		FBF77F2A1FEBC2D400B07161 /* UIViewController+Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Keyboard.swift"; sourceTree = "<group>"; };
 		FBF77F2C1FEBC31E00B07161 /* FileManager+CleanDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+CleanDirectory.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -134,11 +146,14 @@
 		FB2B71111FE68ECB00C2837E /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				FBF2A6E6200CEFEB0000DD40 /* SettingsVC.swift */,
 				FBB8276C1FF3FCF000540DB8 /* PhotoCollectionViewCell.swift */,
 				FB2B71121FE68ED800C2837E /* PDFTableViewCell.swift */,
 				FB9EEA6E2003828400D2C3BE /* OrderCollectionViewCell.swift */,
 				FB3996162008EA2100690FBA /* SettingsTableViewCell.swift */,
 				FB455A94200C9E6E009D747E /* DIsplayTimeTableViewCell.swift */,
+				FBF2A6E8200CFFFC0000DD40 /* SiteNameTableViewCell.swift */,
+				FBF2A6EC200D09320000DD40 /* SaveUserNameTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -148,6 +163,7 @@
 			children = (
 				FB455A92200C9689009D747E /* DisplayTimeVC.swift */,
 				FBF2A6DA200CD2FF0000DD40 /* DefaultSiteVC.swift */,
+				FBF2A6EA200D08FB0000DD40 /* SaveUserNameVC.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -171,6 +187,8 @@
 				FB862B532008A865003BFAD6 /* LoginModel.swift */,
 				FB455A99200CA287009D747E /* DisplayTimeModel.swift */,
 				FBF2A6DC200CDD680000DD40 /* SettingsSitesModel.swift */,
+				FBF2A6EE200D0E990000DD40 /* DefaultUserNameModel.swift */,
+				FB456604200F81A30051DFFA /* DocumentNameGenerator.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -230,10 +248,10 @@
 				FB4290421FE4104300CB0A20 /* MakePhotoVC.swift */,
 				FB6022C41FE530AC00FF0831 /* PhotoPreviewVC.swift */,
 				FB2B710E1FE68D7E00C2837E /* PDFHistoryVC.swift */,
+				FB9870EF20121738006C0681 /* PDFHistoryVC(OLD).swift */,
 				FB7840241FE2B3E1006495D5 /* StartWorkVC.swift */,
 				FB7FC1C31FFF885300D0EFC4 /* PDFReaderVC.swift */,
 				FB9EEA6C20037EE400D2C3BE /* ChangeOrderVC.swift */,
-				FBF2A6E6200CEFEB0000DD40 /* SettingsVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -344,7 +362,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.iCloud = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -461,6 +479,7 @@
 				FB2B71131FE68ED800C2837E /* PDFTableViewCell.swift in Sources */,
 				FBB8276D1FF3FCF000540DB8 /* PhotoCollectionViewCell.swift in Sources */,
 				FB3996172008EA2100690FBA /* SettingsTableViewCell.swift in Sources */,
+				FBF2A6EF200D0E990000DD40 /* DefaultUserNameModel.swift in Sources */,
 				FB9EEA6F2003828400D2C3BE /* OrderCollectionViewCell.swift in Sources */,
 				FB4290451FE4223400CB0A20 /* ImageModel.swift in Sources */,
 				FBF2A6DD200CDD680000DD40 /* SettingsSitesModel.swift in Sources */,
@@ -468,9 +487,11 @@
 				FB455A9A200CA287009D747E /* DisplayTimeModel.swift in Sources */,
 				FBF77F2B1FEBC2D400B07161 /* UIViewController+Keyboard.swift in Sources */,
 				FB7840251FE2B3E1006495D5 /* StartWorkVC.swift in Sources */,
+				FB456605200F81A30051DFFA /* DocumentNameGenerator.swift in Sources */,
 				FB6022C51FE530AC00FF0831 /* PhotoPreviewVC.swift in Sources */,
 				FBF77F2D1FEBC31E00B07161 /* FileManager+CleanDirectory.swift in Sources */,
 				FB4838C41FE946560049FFB9 /* CurrentSessionModel.swift in Sources */,
+				FBF2A6EB200D08FB0000DD40 /* SaveUserNameVC.swift in Sources */,
 				FB862B542008A865003BFAD6 /* LoginModel.swift in Sources */,
 				FB2B710B1FE6760E00C2837E /* ScanQRVC.swift in Sources */,
 				FB78400B1FE26488006495D5 /* AppDelegate.swift in Sources */,
@@ -483,10 +504,13 @@
 				FB29F0601FF29400006B07AB /* WebSiteModel.swift in Sources */,
 				FB1F8A881FE54E4000D6C706 /* DocumentModel.swift in Sources */,
 				FB7FC1C41FFF885300D0EFC4 /* PDFReaderVC.swift in Sources */,
+				FBF2A6ED200D09320000DD40 /* SaveUserNameTableViewCell.swift in Sources */,
 				FB2B710F1FE68D7E00C2837E /* PDFHistoryVC.swift in Sources */,
 				FB2E92181FF3959D00302EDC /* String+RemoveWhiteSpaces.swift in Sources */,
+				FB9870F020121738006C0681 /* PDFHistoryVC(OLD).swift in Sources */,
 				FBF2A6DB200CD2FF0000DD40 /* DefaultSiteVC.swift in Sources */,
 				FBA8151A1FFD29CC00796480 /* PDFSendingRequest.swift in Sources */,
+				FBF2A6E9200CFFFC0000DD40 /* SiteNameTableViewCell.swift in Sources */,
 				FB455A95200C9E6E009D747E /* DIsplayTimeTableViewCell.swift in Sources */,
 				FB55B3031FE31CC4008408B9 /* QRCodeModel.swift in Sources */,
 				FB2B710D1FE6778E00C2837E /* ScanDocumentVC.swift in Sources */,
@@ -627,13 +651,12 @@
 			baseConfigurationReference = E75E051BF849D330EE0C5566 /* Pods-SCN.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SCN/SCN.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 26K5BMR3ML;
+				DEVELOPMENT_TEAM = LN6WQ9ZLB8;
 				INFOPLIST_FILE = "$(SRCROOT)/SCN/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = XIO.SCN;
+				PRODUCT_BUNDLE_IDENTIFIER = com.accelify.AccelifyScan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -647,13 +670,12 @@
 			baseConfigurationReference = EF0C0FE7AF78ECEDE557A1E9 /* Pods-SCN.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SCN/SCN.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 26K5BMR3ML;
+				DEVELOPMENT_TEAM = LN6WQ9ZLB8;
 				INFOPLIST_FILE = "$(SRCROOT)/SCN/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = XIO.SCN;
+				PRODUCT_BUNDLE_IDENTIFIER = com.accelify.AccelifyScan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;

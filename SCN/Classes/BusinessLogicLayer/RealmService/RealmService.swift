@@ -8,14 +8,65 @@
 
 import Foundation
 import RealmSwift
+import Security
 
 class RealmService {
+
     
-    static let realm = try! Realm()
+    static var realm: Realm = {
+        let configuration = Realm.Configuration(encryptionKey: getKey() as Data)
+        let realm: Realm
+        do {
+            realm = try Realm(configuration: configuration)
+        } catch {
+            print(error.localizedDescription)
+            return try! Realm()
+        }
+        return realm
+    }()
+
+    static func getKey() -> NSData {
+        // Identifier for our keychain entry - should be unique for your application
+        let keychainIdentifier = "io.Realm.EncryptionExampleKey"
+        let keychainIdentifierData = keychainIdentifier.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+        
+        // First check in the keychain for an existing key
+        var query: [NSString: AnyObject] = [
+            kSecClass: kSecClassKey,
+            kSecAttrApplicationTag: keychainIdentifierData as AnyObject,
+            kSecAttrKeySizeInBits: 512 as AnyObject,
+            kSecReturnData: true as AnyObject
+        ]
+
+        var dataTypeRef: AnyObject?
+        var status = withUnsafeMutablePointer(to: &dataTypeRef) { SecItemCopyMatching(query as CFDictionary, UnsafeMutablePointer($0)) }
+        if status == errSecSuccess {
+            return dataTypeRef as! NSData
+        }
+        
+        // No pre-existing key from this application, so generate a new one
+        let keyData = NSMutableData(length: 64)!
+        let result = SecRandomCopyBytes(kSecRandomDefault, 64, keyData.mutableBytes.bindMemory(to: UInt8.self, capacity: 64))
+        assert(result == 0, "Failed to get random bytes")
+        
+        // Store the key in the keychain
+        query = [
+            kSecClass: kSecClassKey,
+            kSecAttrApplicationTag: keychainIdentifierData as AnyObject,
+            kSecAttrKeySizeInBits: 512 as AnyObject,
+            kSecValueData: keyData
+        ]
+        
+        status = SecItemAdd(query as CFDictionary, nil)
+        assert(status == errSecSuccess, "Failed to insert the new key in the keychain")
+        
+        return keyData
+    }
+    
     
     // MARK: Write
     static func writeIntoRealm(object: Object) {
-        let realm = try! Realm()
+        
         try! realm.write {
             realm.add(object)
         }
@@ -55,6 +106,10 @@ class RealmService {
     }
     static func getSettingsSitesModel() -> Results<SettingsSitesModel> {
         let data = realm.objects(SettingsSitesModel.self)
+        return data
+    }
+    static func getDefaultUserName() -> Results<DefaultUserNameModel> {
+        let data = realm.objects(DefaultUserNameModel.self)
         return data
     }
     
@@ -123,6 +178,13 @@ class RealmService {
         if RealmService.getSettingsSitesModel().count > 0 {
             try! realm.write {
                 realm.delete(RealmService.getSettingsSitesModel())
+            }
+        }
+    }
+    static func deleteDefaultUserName() {
+        if RealmService.getDefaultUserName().count > 0 {
+            try! realm.write {
+                realm.delete(RealmService.getDefaultUserName())
             }
         }
     }

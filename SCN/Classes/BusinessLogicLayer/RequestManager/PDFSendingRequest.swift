@@ -9,11 +9,12 @@
 import Foundation
 import Alamofire
 import RealmSwift
+import SWXMLHash
 
 class PDFSendingRequest {
     
     static func sendPDF(resend: Bool, documentName: String, completion: @escaping (Bool, Int) -> Void) {
-        let realm = try! Realm()
+        let realm = RealmService.realm
         do {
             
             let tmp = URL(fileURLWithPath: NSTemporaryDirectory()+documentName)
@@ -21,17 +22,25 @@ class PDFSendingRequest {
             let dataToUpload = fileData as NSData
             let pdfString = dataToUpload.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
             let url = "http://"+RealmService.getWebSiteModel()[0].websiteUrl!+"/Plan/Public/MobileAttachmentUpload"
-            let eventId: String?
-            if (RealmService.getQRCode()[0].eventId == nil) {
-                eventId = "InvalidQR"
-            } else {
-                eventId = RealmService.getQRCode()[0].eventId!
+            var eventId = "InvalidQR"
+            
+            let predicate = NSPredicate(format: "documentName LIKE [c] %@", documentName)
+            let documentInstance = realm.objects(DocumentModel.self).filter(predicate)
+            let xmlQR = SWXMLHash.parse(documentInstance.first!.qrCode!)
+            let eventFromQR = (xmlQR["data"]["EventId"].element?.text)
+            if (eventFromQR != nil) {
+                eventId = eventFromQR!
+            }
+
+            var token = "INVALID_TOKEN"
+            if LoginModel.tokenIsValid() {
+                token = RealmService.getLoginModel()[0].token!
             }
             let parameters: Parameters = [
-                "EventId": eventId!,
-                "AttachmentFileName": RealmService.getDocumentData().last!.documentName!,
+                "EventId": eventId,
+                "AttachmentFileName": documentName,
                 "Image": pdfString,
-                "Token": RealmService.getLoginModel()[0].token!
+                "Token": token
             ]
             
             var headers = [String: String]()
@@ -39,26 +48,27 @@ class PDFSendingRequest {
             headers = [
                 "Content-Type": "application/json"
             ]
-            let existingDocumentInstance = realm.object(ofType: DocumentModel.self, forPrimaryKey: RealmService.getDocumentData().last?.id)
 
             Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
                 .validate()
                 .responseJSON{ (response) in
                     let statusCode = response.response?.statusCode
+                    print(statusCode)
                     if statusCode == 404 || statusCode == 1001 {
                         completion(false, 404)
                     }
                     if let _ = response.error {
                         completion(false, 404)
                     } else {
+                        print(response.result.value)
                         if (response.result.value != nil) {
                             try! realm.write {
                                 if (response.result.value as! String == "Ok") {
-                                    existingDocumentInstance?.status = true
-                                    realm.add(existingDocumentInstance!, update: true)
+                                    documentInstance.first?.status = true
+                                    realm.add(documentInstance.first!, update: true)
                                 } else {
-                                    existingDocumentInstance?.status = false 
-                                    realm.add(existingDocumentInstance!, update: true)
+                                    documentInstance.first?.status = false
+                                    realm.add(documentInstance.first!, update: true)
                                 }
                                 completion(true, 0)
                             }

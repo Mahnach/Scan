@@ -13,7 +13,7 @@ import IRLDocumentScanner
 class MakePhotoVC: UIViewController, IRLScannerViewControllerDelegate {
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    let realm = try! Realm()
+    let realm = RealmService.realm
     
     // MARK: - Navigation
     override func viewDidLoad() {
@@ -42,7 +42,7 @@ class MakePhotoVC: UIViewController, IRLScannerViewControllerDelegate {
     func pageSnapped(_ page_image: UIImage, from controller: IRLScannerViewController) {
         controller.dismiss(animated: true) { () -> Void in
 
-            let capturedImageData: Data = UIImageJPEGRepresentation(page_image, 0.2)!
+            let capturedImageData: Data = UIImageJPEGRepresentation(page_image, 0.0)!
             let documentInstance = DocumentModel()
             let imageInstance = ImageModel()
             
@@ -86,6 +86,7 @@ class MakePhotoVC: UIViewController, IRLScannerViewControllerDelegate {
                     let documentInstance = DocumentModel()
                     let id = documentInstance.incrementID()
                     documentInstance.id = id
+                    documentInstance.userLogin = RealmService.getLoginModel()[0].login!
                     RealmService.writeIntoRealm(object: documentInstance)
                     let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
                     let StartWorkViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kStartWorkViewController") as! StartWorkVC

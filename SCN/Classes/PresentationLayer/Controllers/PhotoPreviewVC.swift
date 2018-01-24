@@ -12,20 +12,23 @@ import PDFGenerator
 import Alamofire
 import Reachability
 
-class PhotoPreviewVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class PhotoPreviewVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextFieldDelegate {
 
     @IBOutlet weak var viewForScrollView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
 
+    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var uploadIndicator: UIActivityIndicatorView!
     
+    @IBOutlet weak var documentNameField: UITextField!
     @IBOutlet weak var pageCounterLabel: UILabel!
     //@IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var previewOutlet: UILabel!
+
     
     var pdfFileURL: URL?
     fileprivate var outputAsData: Bool = true
-    let realm = try! Realm()
+    let realm = RealmService.realm
     var isLandscape = 0
     var imagesArray = [UIImage]()
     var imageFromData: UIImage?
@@ -38,12 +41,12 @@ class PhotoPreviewVC: UIViewController, UICollectionViewDataSource, UICollection
         super.viewDidLoad()
         uploadIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         collectionView.delegate = self
+        view.isUserInteractionEnabled = true
         collectionView.dataSource = self
         uploadIndicator.stopAnimating()
-        let attributedString = NSMutableAttributedString(string: previewOutlet.text!)
-        attributedString.addAttribute(NSAttributedStringKey.kern, value: CGFloat(1.0), range: NSRange(location: 0, length: attributedString.length))
-        previewOutlet.attributedText = attributedString
-        
+        let fileName = RealmService.getDocumentData().last?.documentName!
+        documentNameField.delegate = self
+        documentNameField.text = fileName
         do {
             try reachability.startNotifier()
         } catch {
@@ -66,6 +69,11 @@ class PhotoPreviewVC: UIViewController, UICollectionViewDataSource, UICollection
         collectionView.scrollToItem(at: index, at: UICollectionViewScrollPosition.right, animated: true)
 
     }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         collectionView.reloadData()
@@ -94,10 +102,6 @@ class PhotoPreviewVC: UIViewController, UICollectionViewDataSource, UICollection
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageIndex = round(scrollView.contentOffset.x / scrollView.frame.size.width)
@@ -108,10 +112,68 @@ class PhotoPreviewVC: UIViewController, UICollectionViewDataSource, UICollection
         pageCounterLabel.text = String(describing: currentPageInt)+" of "+pageCounter
     }
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        editButton.isHidden = true
+        saveButton.isHidden = false
+    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        editButton.isHidden = false
+        saveButton.isHidden = true
+    }
+    
+    func nameValidation(name: String) -> (String, Bool) {
+        var documentName = name
+        documentName = documentName.removingWhitespaces()
+        if documentName.count == 0 {
+            return ("", false)
+        }
+        if documentName == ".pdf" {
+            return ("", false)
+        }
+        if documentName.suffix(4) == ".pdf" {
+            return (documentName, true)
+        } else {
+            return (documentName+".pdf", true)
+        }
+    }
+    
+    @IBAction func saveNameAction(_ sender: UIButton) {
+        
+        let validationResult = nameValidation(name: documentNameField.text!)
+        if !validationResult.1 {
+            let alert = UIAlertController(title: "Warning", message: "Invalid document name.", preferredStyle: .alert)
+            self.present(alert, animated: true, completion: nil)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
+                self.dismiss(animated: true, completion: nil)
+            }))
+        } else {
+            DocumentNameGenerator.generateDocumentName(changedName: validationResult.0, isChanged: true)
+            documentNameField.text = validationResult.0
+            documentNameField.resignFirstResponder()
+            editButton.isHidden = false
+            saveButton.isHidden = true
+        }
+    }
+    
+    @IBAction func changeNameAction(_ sender: UIButton) {
+        documentNameField.becomeFirstResponder()
+        editButton.isHidden = true
+        saveButton.isHidden = false
+    }
+    
     @IBAction func addNextAction(_ sender: UIButton) {
-        let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let MakePhotoViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kMakePhotoViewController") as! MakePhotoVC
-        navigationController?.pushViewController(MakePhotoViewController, animated: false)
+        if (RealmService.getDocumentData().last?.imageArrayData.count)! > 4 {
+            let alert = UIAlertController(title: "Warning", message: "Maximum 5 photos.", preferredStyle: .alert)
+            self.present(alert, animated: true, completion: nil)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
+                self.dismiss(animated: true, completion: nil)
+            }))
+        } else {
+            let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let MakePhotoViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kMakePhotoViewController") as! MakePhotoVC
+            navigationController?.pushViewController(MakePhotoViewController, animated: false)
+        }
+
     }
     
     func getStringDateWithFormat() -> String {
@@ -125,24 +187,52 @@ class PhotoPreviewVC: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     @IBAction func saveDocumentAction(_ sender: UIButton) {
-        let alert = UIAlertController(title: "No internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
-        switch reachability.connection {
+        view.isUserInteractionEnabled = false
+        if RealmService.getQRCode()[0].isValid {
+            let alert = UIAlertController(title: "No internet Connection", message: "Document will be saved to PDF history.", preferredStyle: .alert)
+            switch reachability.connection {
             case .none:
                 self.present(alert, animated: true, completion: nil)
                 alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
                     self.dismiss(animated: true, completion: nil)
+                    self.saveAndUpload(upload: false)
                 }))
             default:
                 self.dismiss(animated: true, completion: nil)
-                self.uploadPDF()
+                self.saveAndUpload(upload: true)
+            }
+        } else {
+            try! realm.write {
+                realm.delete((RealmService.getDocumentData().last?.imageArrayData)!)
+            }
+            RealmService.deleteCurrentSession()
+            noValidQR()
         }
     }
     
-    func uploadPDF() {
+    func noValidQR()  {
+        let alert = UIAlertController(title: "QR code is invalid for Accelify.", message: "Document cannot be sent using this code.", preferredStyle: .alert)
+        self.present(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
+            self.dismiss(animated: true, completion: nil)
+            let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let ScanQRViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kScanQRViewController") as! ScanQRVC
+            self.navigationController?.pushViewController(ScanQRViewController, animated: false)
+        }))
+    }
+    
+    func saveAndUpload(upload: Bool) {
         RealmService.deleteCurrentSession()
         uploadIndicator.startAnimating()
+        
         let documentName = RealmService.getDocumentData().last?.documentName!
-        let dst = NSTemporaryDirectory().appending(documentName!)
+        var documentNameString = String(describing: documentName!)
+        let documentWithOutDotPDF = documentNameString.dropLast(4)
+        documentNameString = String(describing: documentWithOutDotPDF)
+        documentNameString.append(String(describing: DocumentNameGenerator.currentDateWithSeconds())+".pdf")
+        print(documentNameString)
+        
+        let dst = NSTemporaryDirectory().appending(documentNameString)
         var pages = [UIImage]()
         let existingObject = realm.object(ofType: DocumentModel.self, forPrimaryKey: RealmService.getDocumentData().last?.id)
         for image in (existingObject?.imageArrayData)! {
@@ -159,13 +249,19 @@ class PhotoPreviewVC: UIViewController, UICollectionViewDataSource, UICollection
                     let dateNow = Date()
                     existingObject?.date = dateNow
                     existingObject?.createDate = todaysDate
+                    existingObject?.documentName = documentNameString
                     realm.add(existingObject!, update: true)
                 }
-                
-            } catch (let e) {
-                print(e)
+            } catch (_) {
+                print("GENERATE ERROR")
             }
-            sendPDF()
+            if upload {
+                sendPDF()
+            } else {
+                let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                let PDFHistoryViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kPDFHistoryViewController") as! PDFHistoryVC
+                self.navigationController?.pushViewController(PDFHistoryViewController, animated: true)
+            }
         } else {
             let alert = UIAlertController(title: "Warning", message: "Session Expired.", preferredStyle: .alert)
             self.present(alert, animated: true, completion: nil)
@@ -176,8 +272,8 @@ class PhotoPreviewVC: UIViewController, UICollectionViewDataSource, UICollection
                 self.navigationController?.pushViewController(LoginViewController, animated: true)
             }))
         }
+
     }
-    
     func sendPDF() {
         PDFSendingRequest.sendPDF(resend: false, documentName: (RealmService.getDocumentData().last?.documentName!)!) { (completion, code) in
             if completion {
@@ -187,17 +283,21 @@ class PhotoPreviewVC: UIViewController, UICollectionViewDataSource, UICollection
             } else {
                 if code == 404 {
                     self.uploadIndicator.stopAnimating()
-                    let alert = UIAlertController(title: "Server error", message: "Please, try again later.", preferredStyle: .alert)
+                    let alert = UIAlertController(title: "Server error", message: "Document will be saved to PDF history.", preferredStyle: .alert)
                     self.present(alert, animated: true, completion: nil)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
                         self.dismiss(animated: true, completion: nil)
+                        let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                        let PDFHistoryViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kPDFHistoryViewController") as! PDFHistoryVC
+                        self.navigationController?.pushViewController(PDFHistoryViewController, animated: true)
                     }))
                 } else {
                     self.uploadIndicator.stopAnimating()
-                    let alert = UIAlertController(title: "No internet Connection", message: "Make sure your device is connected to the internet.", preferredStyle: .alert)
+                    let alert = UIAlertController(title: "No internet Connection", message: "Document will be saved to PDF history.", preferredStyle: .alert)
                     self.present(alert, animated: true, completion: nil)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
                         self.dismiss(animated: true, completion: nil)
+                        self.saveAndUpload(upload: false)
                     }))
                 }
             }
@@ -205,7 +305,6 @@ class PhotoPreviewVC: UIViewController, UICollectionViewDataSource, UICollection
     }
     
 
-    
     @IBAction func deleteDocumentAction(_ sender: UIButton) {
         let alert = UIAlertController(title: "Confirmation", message: "Are you sure you want to delete this photo?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Default action"), style: .`default`, handler: { _ in
