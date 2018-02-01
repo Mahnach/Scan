@@ -43,12 +43,13 @@ class DocumentNameGenerator {
         
         let studentIdFromQR = RealmService.getQRCode()[0].studentId!
         let parsedStudentId = "_"+studentIdFromQR
-        
-        let eventNameFromQR = RealmService.getQRCode()[0].eventName!
-        let eventNameWOWhitespaces = eventNameFromQR.removingWhitespaces()
-        let parsedEventNameArray = eventNameWOWhitespaces.components(separatedBy: "(")
-        let parsedEventName = "_"+parsedEventNameArray[0]
-        
+        var parsedEventName = ""
+        if RealmService.getQRCode()[0].eventName != nil {
+            let eventNameFromQR = RealmService.getQRCode()[0].eventName!
+            let eventNameWOWhitespaces = eventNameFromQR.removingWhitespaces()
+            let parsedEventNameArray = eventNameWOWhitespaces.components(separatedBy: "(")
+            parsedEventName = "_"+parsedEventNameArray[0]
+        }
         var formName = ""
         if RealmService.getQRCode()[0].formName != nil {
             let formNameWithSpaces = RealmService.getQRCode()[0].formName!

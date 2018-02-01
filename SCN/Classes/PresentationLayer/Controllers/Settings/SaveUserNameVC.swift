@@ -24,6 +24,8 @@ class SaveUserNameVC: UIViewController, UITableViewDataSource, UITableViewDelega
             case false:
                 savedOption = "NO"
             }
+        } else {
+            savedOption = "NO"
         }
     }
 

@@ -80,7 +80,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     
     func siteIsValid(siteName: String) -> Bool {
         var isValid = false
-        switch siteName {
+        switch siteName.lowercased() {
         case "washoe-demo.accelidemo.com":
             isValid = true
             break
@@ -128,7 +128,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
             if isValid {
                 RealmService.deleteWebsite()
                 let webSiteInstance = WebSiteModel()
-                webSiteInstance.websiteUrl = websiteInput.text!
+                webSiteInstance.websiteUrl = websiteInput.text!.lowercased()
                 RealmService.writeIntoRealm(object: webSiteInstance)
                 LoginRequest.loginRequest(login: userNameInput.text!, password: passwordInput.text!){ (completion, code) in
                     switch completion {
@@ -174,7 +174,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     func addNewSite() {
         if RealmService.getSettingsSitesModel().count == 0 {
             let settingsSiteInstance = SettingsSitesModel()
-            settingsSiteInstance.siteName = websiteInput.text!
+            settingsSiteInstance.siteName = websiteInput.text!.lowercased()
             RealmService.writeIntoRealm(object: settingsSiteInstance)
         } else {
             let PDFInstance = realm.objects(SettingsSitesModel.self).filter("siteName = '"+RealmService.getWebSiteModel()[0].websiteUrl!+"'")
@@ -217,6 +217,9 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
         }
         if RealmService.getDocumentData().count > 0 {
             if (RealmService.getDocumentData().last?.imageArrayData.isEmpty)! || !(RealmService.getDocumentData().last?.isGenerated)! {
+                try! realm.write {
+                    self.realm.delete((RealmService.getDocumentData().last?.imageArrayData)!)
+                }
                 RealmService.deleteLastDocument()
             }
         }

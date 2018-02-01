@@ -129,14 +129,16 @@ final public class QRCodeReaderView: UIView, QRCodeReaderDisplayable {
     
     let labelTitle: UILabel = UILabel()
     labelTitle.frame = CGRect(x: cameraView.frame.width / 2 - 75, y: 21, width: 150, height: 30)
-    labelTitle.textColor = UIColor(red: 35/255, green: 181/255, blue: 163/255, alpha: 1.0)
+    //labelTitle.textColor = UIColor(red: 35/255, green: 181/255, blue: 163/255, alpha: 1.0)
+    labelTitle.textColor = UIColor.black
     labelTitle.textAlignment = .center
     labelTitle.font = UIFont.boldSystemFont(ofSize: 17)
     labelTitle.text = "STEP 1"
 
     let labelText: UILabel = UILabel()
     labelText.frame = CGRect(x: cameraView.frame.width / 2 - 75, y: 48, width: 150, height: 20)
-    labelText.textColor = UIColor(red: 106/255, green: 180/255, blue: 164/255, alpha: 1.0)
+    labelText.textColor = UIColor.black
+    //labelText.textColor = UIColor(red: 106/255, green: 180/255, blue: 164/255, alpha: 1.0)
     labelText.textAlignment = .center
     labelText.text = "Scan QR code"
     

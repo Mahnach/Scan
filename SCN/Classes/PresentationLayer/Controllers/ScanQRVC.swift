@@ -104,7 +104,15 @@ class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
                 qrInstance.studentId = xmlQR["data"]["StudentId"].element?.text
                 qrInstance.eventId = xmlQR["data"]["EventId"].element?.text
                 qrInstance.customer = xmlQR["data"]["Customer"].element?.text
+                qrInstance.fileUniqueName = xmlQR["data"]["FileUniqueName"].element?.text
+                qrInstance.programType = xmlQR["data"]["ProgramType"].element?.text
+                if let _ = xmlQR["data"]["FileUniqueName"].element?.text {
+                    qrInstance.isValid = true
+                }
                 if let _ = xmlQR["data"]["EventId"].element?.text {
+                    qrInstance.isValid = true
+                }
+                if let _ = xmlQR["data"]["ProgramType"].element?.text {
                     qrInstance.isValid = true
                 }
                 RealmService.writeIntoRealm(object: qrInstance)

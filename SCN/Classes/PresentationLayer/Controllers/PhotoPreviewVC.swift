@@ -138,7 +138,6 @@ class PhotoPreviewVC: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     @IBAction func saveNameAction(_ sender: UIButton) {
-        
         let validationResult = nameValidation(name: documentNameField.text!)
         if !validationResult.1 {
             let alert = UIAlertController(title: "Warning", message: "Invalid document name.", preferredStyle: .alert)

@@ -18,6 +18,8 @@ class QRCodeModel: Object{
     @objc dynamic var studentId: String?
     @objc dynamic var isValid = false
     @objc dynamic var eventId: String?
+    @objc dynamic var fileUniqueName: String?
+    @objc dynamic var programType: String?
 }
 
 

@@ -43,6 +43,7 @@ class MakePhotoVC: UIViewController, IRLScannerViewControllerDelegate {
         controller.dismiss(animated: true) { () -> Void in
 
             let capturedImageData: Data = UIImageJPEGRepresentation(page_image, 0.0)!
+            print(UIImageJPEGRepresentation(page_image, 0.0)!.count)
             let documentInstance = DocumentModel()
             let imageInstance = ImageModel()
             

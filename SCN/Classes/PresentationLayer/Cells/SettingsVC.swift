@@ -77,7 +77,6 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     func logout() {
-
         RealmService.deleteLoginData()
         let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let LoginViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kLoginViewController") as! LoginVC
