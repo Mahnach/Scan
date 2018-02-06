@@ -337,6 +337,7 @@
 				FB7840051FE26488006495D5 /* Resources */,
 				7E2E3DDCA779CEDBC8ECBB4C /* [CP] Embed Pods Frameworks */,
 				913275BCDA0659964F753E5F /* [CP] Copy Pods Resources */,
+				FBA0AC3320247A9A004D3578 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -468,6 +469,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SCN/Pods-SCN-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		FBA0AC3320247A9A004D3578 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "";
 		};
 /* End PBXShellScriptBuildPhase section */
 

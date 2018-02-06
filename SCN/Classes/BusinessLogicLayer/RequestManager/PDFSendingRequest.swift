@@ -113,7 +113,7 @@ class PDFSendingRequest {
                     } else {
                         if (response.result.value != nil) {
                             try! realm.write {
-                                if (statusCode == 200) {
+                                if (response.result.value as! String == "Ok") {
                                     documentInstance.first?.status = true
                                     realm.add(documentInstance.first!, update: true)
                                 } else {
