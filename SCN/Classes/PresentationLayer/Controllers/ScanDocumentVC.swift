@@ -20,7 +20,6 @@ class ScanDocumentVC: UIViewController {
     // MARK: - Navigation
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if !(RealmService.getQRCode().last?.isValid)! {
             let alert = UIAlertController(title: "WARNING", message: "QR code is invalid for Accelify", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
@@ -30,13 +29,24 @@ class ScanDocumentVC: UIViewController {
             }))
             self.present(alert, animated: true, completion: nil)
         } else {
-            DocumentNameGenerator.generateDocumentName(changedName: "", isChanged: false)
-            let alert = UIAlertController(title: "Valid QR Code", message: RealmService.getDocumentData().last?.documentName! , preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
-                self.dismiss(animated: true, completion: nil)
-                self.pushScanDocumentController()
-            }))
-            self.present(alert, animated: true, completion: nil)
+            if !siteEqualToQR() {
+                let alert = UIAlertController(title: "WARNING", message: "QR code is invalid for this website", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
+                    self.dismiss(animated: true, completion: nil)
+                    let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+                    let ScanQRViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kScanQRViewController") as! ScanQRVC
+                    self.navigationController?.pushViewController(ScanQRViewController, animated: false)
+                }))
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                DocumentNameGenerator.generateDocumentName(changedName: "", isChanged: false)
+                let alert = UIAlertController(title: "Valid QR Code", message: RealmService.getDocumentData().last?.documentName! , preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
+                    self.dismiss(animated: true, completion: nil)
+                    self.pushScanDocumentController()
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
         }
     }
     
@@ -48,6 +58,29 @@ class ScanDocumentVC: UIViewController {
         let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let MakePhotoViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kMakePhotoViewController") as! MakePhotoVC
         navigationController?.pushViewController(MakePhotoViewController, animated: false)
+    }
+    
+    func siteEqualToQR() -> Bool {
+        let siteUrl = RealmService.getWebSiteModel()[0].websiteUrl!
+        var validationString = siteUrl.components(separatedBy: "-")
+        if validationString.count == 1 {
+            validationString = (validationString.first?.components(separatedBy: "."))!
+        }
+        if var customer =  RealmService.getQRCode()[0].customer {
+            if customer == "Miami" {
+                customer = "Dade"
+            }
+            print(validationString[0])
+            print(customer)
+            if customer.lowercased() == validationString.first?.lowercased() {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+
     }
 
 }

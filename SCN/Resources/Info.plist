@@ -19,7 +19,21 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.1</string>
 	<key>CFBundleVersion</key>
-	<string>1.3.7</string>
+	<string>1.4.2</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>b28bcd28ba4cec93629531fabacba1c5a6c7d491</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

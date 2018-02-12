@@ -29,7 +29,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SCN" translatesAutoresizingMaskIntoConstraints="NO" id="cHe-yq-hhr">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AcceliSCNnewlogo" translatesAutoresizingMaskIntoConstraints="NO" id="cHe-yq-hhr">
                                 <rect key="frame" x="141" y="70" width="92" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="92" id="Sn3-eZ-1u9"/>
@@ -96,8 +96,8 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.90588235294117647" green="0.95294117647058818" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="263" id="R0B-Oc-wIU"/>
                                     <constraint firstAttribute="width" constant="300" id="t1V-2w-JTH"/>
+                                    <constraint firstAttribute="height" constant="263" id="ya8-eN-xFb"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9r8-77-tVg">
@@ -116,9 +116,9 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="9r8-77-tVg" secondAttribute="bottom" constant="65" id="1WP-og-ng0"/>
-                            <constraint firstItem="cHe-yq-hhr" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="CYM-wn-Bv0"/>
                             <constraint firstItem="9r8-77-tVg" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="OB7-Gy-v4n"/>
                             <constraint firstItem="cHe-yq-hhr" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="T63-iq-bSS"/>
+                            <constraint firstItem="OX4-zH-0S3" firstAttribute="top" secondItem="cHe-yq-hhr" secondAttribute="bottom" constant="42" id="ceg-dt-BLI"/>
                             <constraint firstItem="OX4-zH-0S3" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="ePu-at-1Di"/>
                             <constraint firstItem="OX4-zH-0S3" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="p8e-0o-bQm"/>
                             <constraint firstItem="ybx-p9-FUc" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="sWZ-6b-7DF"/>
@@ -134,6 +134,7 @@
                         <outlet property="inputPasswordView" destination="T9A-mQ-ZRH" id="Loa-Y8-BeZ"/>
                         <outlet property="inputUserNameView" destination="WQq-QG-f2s" id="aIh-wk-div"/>
                         <outlet property="inputWebsiteView" destination="D3k-RB-21n" id="uH8-Zb-P1I"/>
+                        <outlet property="logoImageView" destination="cHe-yq-hhr" id="DHw-Yj-hf3"/>
                         <outlet property="passwordInput" destination="NcA-EO-7jw" id="rd4-jn-xAB"/>
                         <outlet property="userNameInput" destination="F1J-dx-lrd" id="gdc-VR-bSB"/>
                         <outlet property="websiteInput" destination="TJY-Lm-FHf" id="neY-t4-Xtt"/>
@@ -299,7 +300,6 @@
                                     <constraint firstAttribute="bottom" secondItem="lSM-jE-C0H" secondAttribute="bottom" constant="7" id="Gkv-gg-iQG"/>
                                     <constraint firstItem="L26-oI-Mx6" firstAttribute="centerX" secondItem="FIe-sE-Tok" secondAttribute="centerX" id="Mus-11-NFD"/>
                                     <constraint firstItem="lSM-jE-C0H" firstAttribute="leading" secondItem="FIe-sE-Tok" secondAttribute="leading" constant="8" id="VLR-ZY-JQn"/>
-                                    <constraint firstAttribute="width" constant="375" id="oIC-eD-5ZF"/>
                                     <constraint firstAttribute="bottom" secondItem="L26-oI-Mx6" secondAttribute="bottom" constant="13" id="pFn-hd-4eD"/>
                                 </constraints>
                             </view>
@@ -307,7 +307,6 @@
                                 <rect key="frame" x="0.0" y="64" width="375" height="350"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="375" id="NDS-A7-SO5"/>
                                     <constraint firstAttribute="height" constant="350" id="kJ4-C3-peU"/>
                                 </constraints>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -407,7 +406,6 @@
                                 <color key="backgroundColor" red="0.90588235289999997" green="0.95686274510000002" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="hrh-Xs-4Uw" secondAttribute="bottom" constant="13" id="17r-Nv-kWF"/>
-                                    <constraint firstAttribute="width" constant="375" id="FIJ-cp-Gl4"/>
                                     <constraint firstAttribute="bottom" secondItem="Wz8-ev-KE1" secondAttribute="bottom" constant="7" id="WHg-OD-Mp5"/>
                                     <constraint firstAttribute="height" constant="65" id="gpf-6c-BTz"/>
                                     <constraint firstItem="hrh-Xs-4Uw" firstAttribute="centerX" secondItem="KR9-kB-UPt" secondAttribute="centerX" id="jsA-Zx-rey"/>
@@ -419,7 +417,6 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="350" id="Chx-dT-hl6"/>
-                                    <constraint firstAttribute="width" constant="375" id="qID-Vy-Reb"/>
                                 </constraints>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="4Xr-Fa-FA3">
@@ -1172,7 +1169,7 @@
                                         </constraints>
                                     </view>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aJK-pF-ibJ">
-                                        <rect key="frame" x="19" y="105" width="338" height="460"/>
+                                        <rect key="frame" x="18.5" y="105" width="338" height="460"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="KaQ-9p-jdO">
                                             <size key="itemSize" width="335" height="471"/>
@@ -1316,7 +1313,7 @@
                                         </constraints>
                                     </view>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="8RM-bQ-Iye">
-                                        <rect key="frame" x="19" y="78" width="338" height="564"/>
+                                        <rect key="frame" x="18.5" y="78" width="338" height="564"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ziz-Kl-Myf">
                                             <size key="itemSize" width="335" height="499"/>
@@ -1449,12 +1446,12 @@
     </scenes>
     <resources>
         <image name="+" width="150" height="150"/>
+        <image name="AcceliSCNnewlogo" width="403" height="432"/>
         <image name="Accelify" width="467" height="113"/>
         <image name="AddPhoto" width="106" height="117"/>
         <image name="Asset 5" width="370" height="369"/>
         <image name="EllipsePlus" width="57" height="57"/>
         <image name="PageCounter" width="200" height="101"/>
-        <image name="SCN" width="197" height="211"/>
         <image name="Trash" width="86" height="104"/>
         <image name="cancel" width="230" height="84"/>
         <image name="checked" width="64" height="64"/>

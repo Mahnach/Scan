@@ -481,7 +481,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" b28bcd28ba4cec93629531fabacba1c5a6c7d491 5273b1f065cf3d046927ecaee55a34077d4cb4e655e802529aa12c2460da9e82";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -667,6 +667,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = LN6WQ9ZLB8;
 				INFOPLIST_FILE = "$(SRCROOT)/SCN/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -34,10 +34,6 @@ class PDFSendingRequest {
         if let _ = (xmlQR["data"]["FileUniqueName"].element?.text) {
             address = .distribution
         }
-        var token = "INVALID_TOKEN"
-        if LoginModel.tokenIsValid() {
-            token = RealmService.getLoginModel()[0].token!
-        }
         let url: String?
         let parameters: [String: Any]?
         
@@ -50,8 +46,7 @@ class PDFSendingRequest {
             parameters = [
                 "EventId": (xmlQR["data"]["EventId"].element?.text)!,
                 "AttachmentFileName": documentName,
-                "Image": pdfString,
-                "Token": token
+                "Image": pdfString
             ]
             print("event")
         case .student:
@@ -60,8 +55,7 @@ class PDFSendingRequest {
                 "CommonStudentId": (xmlQR["data"]["StudentAutoId"].element?.text)!,
                 "ProgramType": (xmlQR["data"]["ProgramType"].element?.text)!,
                 "AttachmentFileName": documentName,
-                "Image": pdfString,
-                "Token": token
+                "Image": pdfString
             ]
             print("student")
         case .distribution:
@@ -69,8 +63,7 @@ class PDFSendingRequest {
             parameters = [
                 "FileUniqueName": (xmlQR["data"]["FileUniqueName"].element?.text)!,
                 "AttachmentFileName": documentName,
-                "Image": pdfString,
-                "Token": token
+                "Image": pdfString
             ]
             print("distribution")
             
@@ -79,8 +72,7 @@ class PDFSendingRequest {
             parameters = [
                 "EventId": (xmlQR["data"]["EventId"].element?.text)!,
                 "AttachmentFileName": documentName,
-                "Image": pdfString,
-                "Token": token
+                "Image": pdfString
             ]
             print("oldEventId")
         }
@@ -95,8 +87,17 @@ class PDFSendingRequest {
             let xmlQR = SWXMLHash.parse(documentInstance.first!.qrCode!)
             let getRequestData = getSendingAddress(documentName: documentName, xmlQR: xmlQR)
             var headers = [String: String]()
+        
+            var token = "INVALID_TOKEN"
+            var tokenType = "INVALID_TOKEN_TYPE"
+            if LoginModel.tokenIsValid() {
+                token = RealmService.getLoginModel()[0].token!
+                tokenType = RealmService.getLoginModel()[0].tokenType!+" "+token
+            }
+            print(tokenType)
             headers = [
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": tokenType
             ]
         
             Alamofire.request(getRequestData.0, method: .post, parameters: getRequestData.1, encoding: JSONEncoding.default, headers: headers)

@@ -9,6 +9,7 @@
 import UIKit
 import RealmSwift
 import Reachability
+import Crashlytics
 
 class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, UIPickerViewDelegate{
     
@@ -21,7 +22,8 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     @IBOutlet weak var inputUserNameView: UIView!
     @IBOutlet weak var inputPasswordView: UIView!
     @IBOutlet weak var dropDownLabel: UILabel!
-
+    @IBOutlet weak var logoImageView: UIImageView!
+    
     let reachability = Reachability()!
     let realm = RealmService.realm
 
@@ -31,6 +33,8 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
         self.hideKeyboardWhenTappedAround()
         view.isUserInteractionEnabled = true
         welcomeView.layer.cornerRadius = 20
+        logoImageView.layer.cornerRadius = 15
+        logoImageView.layer.masksToBounds = true
         activityIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         welcomeView.layer.masksToBounds = true
         inputWebsiteView?.layer.cornerRadius = 6
@@ -81,10 +85,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     func siteIsValid(siteName: String) -> Bool {
         var isValid = false
         switch siteName.lowercased() {
-        case "washoe-demo.accelidemo.com":
-            isValid = true
-            break
-        case "washoe.acceliqc.com":
+        case "dc.acceliplan.com":
             isValid = true
             break
         case "dc-demo.accelidemo.com":
@@ -93,10 +94,16 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
         case "dc.acceliqc.com":
             isValid = true
             break
+        case "dade.acceliplan.com":
+            isValid = true
+            break
         case "dade-demo.accelidemo.com":
             isValid = true
             break
         case "dade.acceliqc.com":
+            isValid = true
+            break
+        case "broward.acceliplan.com":
             isValid = true
             break
         case "broward-demo.accelidemo.com":
@@ -224,7 +231,12 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
             }
         }
         if RealmService.getWebSiteModel().count > 0 {
-            websiteInput.text = RealmService.getWebSiteModel().first?.websiteUrl!
+            let sitesArray = RealmService.getSettingsSitesModel()
+            for element in sitesArray {
+                if element.isDefault {
+                    websiteInput.text = element.siteName!
+                }
+            }
         }
         if LoginModel.tokenIsValid() {
             pushCorrectController()

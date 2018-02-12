@@ -11,4 +11,5 @@ import RealmSwift
 
 class SettingsSitesModel: Object {
     @objc dynamic var siteName: String?
+    @objc dynamic var isDefault = false
 }

@@ -20,7 +20,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bmK-PG-VAG">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="mxb-Ky-hQY">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AcceliSCNnewlogo" translatesAutoresizingMaskIntoConstraints="NO" id="mxb-Ky-hQY">
                                         <rect key="frame" x="0.0" y="130" width="375" height="407"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -30,7 +30,7 @@
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.67047613859176636" green="0.89340263605117798" blue="0.90355414152145386" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.57160723209381104" green="0.83771908283233643" blue="0.88180357217788696" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="mxb-Ky-hQY" firstAttribute="centerX" secondItem="bmK-PG-VAG" secondAttribute="centerX" id="0qb-vg-VQQ"/>
                                     <constraint firstItem="mxb-Ky-hQY" firstAttribute="centerY" secondItem="bmK-PG-VAG" secondAttribute="centerY" id="Vhr-8F-S7N"/>
@@ -53,6 +53,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="launchScreen" width="1242" height="1339"/>
+        <image name="AcceliSCNnewlogo" width="403" height="432"/>
     </resources>
 </document>

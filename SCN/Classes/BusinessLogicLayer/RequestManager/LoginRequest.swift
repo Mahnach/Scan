@@ -13,20 +13,20 @@ import RealmSwift
 class LoginRequest {
     
     static func loginRequest(login: String, password: String, completion: @escaping (Bool, Int) -> Void) {
-            let url = "http://"+RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/api/mobile/authenticate"
+            //let url = "http://"+RealmService.getWebSiteModel()[0].websiteUrl!+"/Plan/Public/MobileAuthenticate"
+            let url = "http://"+RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/token"
             print(url)
-            let parameters: Parameters = [
-                "Username": login,
-                "Password": password
-            ]
-            print(parameters)
-            var headers = [String: String]()
-            
-            headers = [
-                "Content-Type": "application/json"
-            ]
-            
-            Alamofire.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
+//            let parameters: Parameters = [
+//                "Username": login,
+//                "Password": password
+//            ]
+        let parameters: Parameters = [
+            "grant_type": "password",
+            "username": login,
+            "password": password
+        ]
+
+        Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default)
                 .validate()
                 .responseJSON{ (response) in
 
@@ -35,31 +35,25 @@ class LoginRequest {
                     if statusCode == 404 || statusCode == 1001 {
                         completion(false, 404)
                     }
+                    if statusCode == 400 {
+                        completion(false, 200)
+                    }
                     if let _ = response.error {
                         completion(false, 404)
                     } else {
+                        
                         if (response.result.value != nil) {
-                            let responseString = response.result.value as! String
-                            print(responseString)
-                            switch responseString {
-                            case "Ok":
-                                completion(false, 200)
-                                break
-                            case "User not found":
-                                completion(false, 200)
-                                break
-                            default:
-                                RealmService.deleteLoginData()
-                                let loginInstance = LoginModel()
-                                loginInstance.login = login
-                                loginInstance.password = password
-                                loginInstance.token = responseString
-                                loginInstance.startDate = Date()
-                                RealmService.writeIntoRealm(object: loginInstance)
-                                print("FINE")
-                                completion(true, 200)
-                                break
-                            }
+                            let responseDictionary = response.result.value as! [String: Any]
+                            RealmService.deleteLoginData()
+                            let loginInstance = LoginModel()
+                            loginInstance.startDate = Date()
+                            loginInstance.login = login
+                            loginInstance.token = (responseDictionary["access_token"] as! String)
+                            loginInstance.tokenType = (responseDictionary["token_type"] as! String)
+                            loginInstance.password = password
+                            RealmService.writeIntoRealm(object: loginInstance)
+                            print("FINE")
+                            completion(true, 200)
                         }
                     }
             }

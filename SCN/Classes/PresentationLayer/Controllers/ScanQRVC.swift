@@ -139,5 +139,5 @@ class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
         readerVC.navigationController?.setNavigationBarHidden(true, animated: true)
         navigationController?.pushViewController(readerVC, animated: true)
     }
-    
+
 }

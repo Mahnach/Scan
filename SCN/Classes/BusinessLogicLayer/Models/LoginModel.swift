@@ -15,6 +15,7 @@ class LoginModel: Object {
     @objc dynamic var login: String?
     @objc dynamic var password: String?
     @objc dynamic var token: String?
+    @objc dynamic var tokenType: String?
     @objc dynamic var startDate: Date?
     @objc dynamic var timeLifeInSeconds = 28700.0 //28800:480m
     

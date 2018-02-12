@@ -13,10 +13,12 @@ import Security
 class RealmService {
 
     static var realm: Realm = {
-        let configuration = Realm.Configuration(encryptionKey: getKey() as Data, schemaVersion: 2, migrationBlock: { migration, oldSchemaVersion in
+        let configuration = Realm.Configuration(encryptionKey: getKey() as Data, schemaVersion: 4, migrationBlock: { migration, oldSchemaVersion in
             if (oldSchemaVersion < 1) {
                 //add QRCodeModel.fileUniqueName (v1)
                 //add QRCodeModel.programType (v2)
+                //add SettingsSitesModel.isDefault (v3)
+                //add LoginModel.tokenType (v4)
                 //fb1dc06d870174e5a87ceb30122c6a7a14094bcbbec3882993f40fe266d8c23d744ab5547d7b74d1d5064e2df7d08e8d3781b5a96db1dc02bef9668e8cde05f2
             }
         })

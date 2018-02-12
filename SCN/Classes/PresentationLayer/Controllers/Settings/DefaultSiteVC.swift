@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import RealmSwift
 
 class DefaultSiteVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var siteLabel: UILabel!
+    let realm = RealmService.realm
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,22 +42,26 @@ class DefaultSiteVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "siteCell") as! SiteNameTableViewCell
         cell.siteName.text = RealmService.getSettingsSitesModel()[indexPath.row].siteName!
-        
-        if cell.siteName.text == RealmService.getWebSiteModel()[0].websiteUrl! {
+        if RealmService.getSettingsSitesModel()[indexPath.row].isDefault {
             cell.accessoryType = UITableViewCellAccessoryType.checkmark
         }
-        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let indexPathValue = tableView.indexPathForSelectedRow!
         let currentCell = tableView.cellForRow(at: indexPathValue) as! SiteNameTableViewCell
-        RealmService.deleteWebsite()
-        let webSiteInstance = WebSiteModel()
-        webSiteInstance.websiteUrl = currentCell.siteName.text
-
-        RealmService.writeIntoRealm(object: webSiteInstance)
+        let sitesArray = RealmService.getSettingsSitesModel()
+        try! realm.write {
+            for element in sitesArray {
+                element.isDefault = false
+                realm.add(element, update: false)
+            }
+            let existingObject = RealmService.getSettingsSitesModel()[indexPath.row]
+                existingObject.siteName = currentCell.siteName.text
+                existingObject.isDefault = true
+                realm.add(existingObject, update: false)
+        }
         _ = navigationController?.popViewController(animated: true)
     }
     

@@ -12,5 +12,7 @@ target 'SCN' do
   pod 'SWXMLHash'
   pod 'Alamofire'
   pod 'ReachabilitySwift'
+  pod 'Fabric'
+  pod 'Crashlytics'
 
 end
