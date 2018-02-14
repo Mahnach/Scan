@@ -37,7 +37,6 @@
 		FB7FC1C41FFF885300D0EFC4 /* PDFReaderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB7FC1C31FFF885300D0EFC4 /* PDFReaderVC.swift */; };
 		FB862B5220089E0C003BFAD6 /* LoginRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB862B5120089E0C003BFAD6 /* LoginRequest.swift */; };
 		FB862B542008A865003BFAD6 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB862B532008A865003BFAD6 /* LoginModel.swift */; };
-		FB9870F020121738006C0681 /* PDFHistoryVC(OLD).swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9870EF20121738006C0681 /* PDFHistoryVC(OLD).swift */; };
 		FB9EEA6D20037EE400D2C3BE /* ChangeOrderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9EEA6C20037EE400D2C3BE /* ChangeOrderVC.swift */; };
 		FB9EEA6F2003828400D2C3BE /* OrderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9EEA6E2003828400D2C3BE /* OrderCollectionViewCell.swift */; };
 		FBA8151A1FFD29CC00796480 /* PDFSendingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA815191FFD29CC00796480 /* PDFSendingRequest.swift */; };
@@ -88,7 +87,6 @@
 		FB7FC1C31FFF885300D0EFC4 /* PDFReaderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFReaderVC.swift; sourceTree = "<group>"; };
 		FB862B5120089E0C003BFAD6 /* LoginRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRequest.swift; sourceTree = "<group>"; };
 		FB862B532008A865003BFAD6 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
-		FB9870EF20121738006C0681 /* PDFHistoryVC(OLD).swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PDFHistoryVC(OLD).swift"; sourceTree = "<group>"; };
 		FB9EEA6C20037EE400D2C3BE /* ChangeOrderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeOrderVC.swift; sourceTree = "<group>"; };
 		FB9EEA6E2003828400D2C3BE /* OrderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCollectionViewCell.swift; sourceTree = "<group>"; };
 		FBA815171FFCFF0A00796480 /* SCN.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SCN.entitlements; sourceTree = "<group>"; };
@@ -248,7 +246,6 @@
 				FB4290421FE4104300CB0A20 /* MakePhotoVC.swift */,
 				FB6022C41FE530AC00FF0831 /* PhotoPreviewVC.swift */,
 				FB2B710E1FE68D7E00C2837E /* PDFHistoryVC.swift */,
-				FB9870EF20121738006C0681 /* PDFHistoryVC(OLD).swift */,
 				FB7840241FE2B3E1006495D5 /* StartWorkVC.swift */,
 				FB7FC1C31FFF885300D0EFC4 /* PDFReaderVC.swift */,
 				FB9EEA6C20037EE400D2C3BE /* ChangeOrderVC.swift */,
@@ -521,7 +518,6 @@
 				FBF2A6ED200D09320000DD40 /* SaveUserNameTableViewCell.swift in Sources */,
 				FB2B710F1FE68D7E00C2837E /* PDFHistoryVC.swift in Sources */,
 				FB2E92181FF3959D00302EDC /* String+RemoveWhiteSpaces.swift in Sources */,
-				FB9870F020121738006C0681 /* PDFHistoryVC(OLD).swift in Sources */,
 				FBF2A6DB200CD2FF0000DD40 /* DefaultSiteVC.swift in Sources */,
 				FBA8151A1FFD29CC00796480 /* PDFSendingRequest.swift in Sources */,
 				FBF2A6E9200CFFFC0000DD40 /* SiteNameTableViewCell.swift in Sources */,

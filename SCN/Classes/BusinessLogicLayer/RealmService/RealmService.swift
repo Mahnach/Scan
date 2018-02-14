@@ -19,7 +19,6 @@ class RealmService {
                 //add QRCodeModel.programType (v2)
                 //add SettingsSitesModel.isDefault (v3)
                 //add LoginModel.tokenType (v4)
-                //fb1dc06d870174e5a87ceb30122c6a7a14094bcbbec3882993f40fe266d8c23d744ab5547d7b74d1d5064e2df7d08e8d3781b5a96db1dc02bef9668e8cde05f2
             }
         })
         let realm: Realm
@@ -34,11 +33,9 @@ class RealmService {
     }()
 
     static func getKey() -> NSData {
-        // Identifier for our keychain entry - should be unique for your application
         let keychainIdentifier = "io.Realm.EncryptionExampleKey"
         let keychainIdentifierData = keychainIdentifier.data(using: String.Encoding.utf8, allowLossyConversion: false)!
         
-        // First check in the keychain for an existing key
         var query: [NSString: AnyObject] = [
             kSecClass: kSecClassKey,
             kSecAttrApplicationTag: keychainIdentifierData as AnyObject,
@@ -52,12 +49,10 @@ class RealmService {
             return dataTypeRef as! NSData
         }
         
-        // No pre-existing key from this application, so generate a new one
         let keyData = NSMutableData(length: 64)!
         let result = SecRandomCopyBytes(kSecRandomDefault, 64, keyData.mutableBytes.bindMemory(to: UInt8.self, capacity: 64))
         assert(result == 0, "Failed to get random bytes")
         
-        // Store the key in the keychain
         query = [
             kSecClass: kSecClassKey,
             kSecAttrApplicationTag: keychainIdentifierData as AnyObject,

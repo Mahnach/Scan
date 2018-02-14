@@ -119,7 +119,5 @@ class ChangeOrderVC: UIViewController, UICollectionViewDataSource, UICollectionV
             collectionView.cancelInteractiveMovement()
         }
     }
-    
-    
 
 }

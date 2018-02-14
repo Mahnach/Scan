@@ -13,13 +13,8 @@ import RealmSwift
 class LoginRequest {
     
     static func loginRequest(login: String, password: String, completion: @escaping (Bool, Int) -> Void) {
-            //let url = "http://"+RealmService.getWebSiteModel()[0].websiteUrl!+"/Plan/Public/MobileAuthenticate"
             let url = "http://"+RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/token"
             print(url)
-//            let parameters: Parameters = [
-//                "Username": login,
-//                "Password": password
-//            ]
         let parameters: Parameters = [
             "grant_type": "password",
             "username": login,

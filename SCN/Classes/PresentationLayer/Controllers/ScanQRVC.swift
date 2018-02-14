@@ -28,6 +28,7 @@ class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
     // MARK: - Navigation
     override func viewDidLoad() {
         super.viewDidLoad()
+
         RealmService.deleteQRCode()
         scanQR()
     }

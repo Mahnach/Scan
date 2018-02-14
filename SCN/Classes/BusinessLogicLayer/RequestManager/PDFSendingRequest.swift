@@ -103,9 +103,9 @@ class PDFSendingRequest {
             Alamofire.request(getRequestData.0, method: .post, parameters: getRequestData.1, encoding: JSONEncoding.default, headers: headers)
                 .validate()
                 .responseJSON{ (response) in
-                    print(response.result.value)
                     let statusCode = response.response?.statusCode
-                    print(statusCode)
+                    //print(statusCode)
+                    //print(response.result.value)
                     if statusCode == 404 || statusCode == 1001 {
                         completion(false, 404)
                     }
