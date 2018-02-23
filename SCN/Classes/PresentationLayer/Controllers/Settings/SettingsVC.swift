@@ -76,6 +76,9 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    // add validation  address = qr
+    // remove http/https from login screen
+    
     func logout() {
         RealmService.deleteLoginData()
         let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)

@@ -42,7 +42,7 @@ class PDFSendingRequest {
         switch address {
             
         case .eventId:
-            url = "http://"+RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/api/mobile/eventattachmentupload"
+            url = RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/api/mobile/eventattachmentupload"
             parameters = [
                 "EventId": (xmlQR["data"]["EventId"].element?.text)!,
                 "AttachmentFileName": documentName,
@@ -50,7 +50,7 @@ class PDFSendingRequest {
             ]
             print("event")
         case .student:
-            url = "http://"+RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/api/mobile/studentattachmentupload"
+            url = RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/api/mobile/studentattachmentupload"
             parameters = [
                 "CommonStudentId": (xmlQR["data"]["StudentAutoId"].element?.text)!,
                 "ProgramType": (xmlQR["data"]["ProgramType"].element?.text)!,
@@ -59,7 +59,7 @@ class PDFSendingRequest {
             ]
             print("student")
         case .distribution:
-            url = "http://"+RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/api/mobile/parentresponseattachmentupload"
+            url = RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/api/mobile/parentresponseattachmentupload"
             parameters = [
                 "FileUniqueName": (xmlQR["data"]["FileUniqueName"].element?.text)!,
                 "AttachmentFileName": documentName,
@@ -68,7 +68,7 @@ class PDFSendingRequest {
             print("distribution")
             
         case .oldEventId:
-            url = "http://"+RealmService.getWebSiteModel()[0].websiteUrl!+"/Plan/Public/MobileAttachmentUpload"
+            url = RealmService.getWebSiteModel()[0].websiteUrl!+"/Plan/Public/MobileAttachmentUpload"
             parameters = [
                 "EventId": (xmlQR["data"]["EventId"].element?.text)!,
                 "AttachmentFileName": documentName,

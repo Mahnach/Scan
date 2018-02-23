@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>674440666879-vtdh8lfsvuk1uf4td93i2n3d9hpqidim.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.674440666879-vtdh8lfsvuk1uf4td93i2n3d9hpqidim</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBqeMgmaryGcYiQxwHPGyFmTX2K0pqO20A</string>
+	<key>GCM_SENDER_ID</key>
+	<string>674440666879</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.accelify.AccelifyScan</string>
+	<key>PROJECT_ID</key>
+	<string>accelify-ef173</string>
+	<key>STORAGE_BUCKET</key>
+	<string>accelify-ef173.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:674440666879:ios:1f23134ac624261a</string>
+	<key>DATABASE_URL</key>
+	<string>https://accelify-ef173.firebaseio.com</string>
+</dict>
+</plist>

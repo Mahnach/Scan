@@ -46,7 +46,7 @@ class ScanDocumentVC: UIViewController {
                     self.pushScanDocumentController()
                 }))
                 self.present(alert, animated: true, completion: nil)
-            }
+           }
         }
     }
     
@@ -70,9 +70,11 @@ class ScanDocumentVC: UIViewController {
             if customer == "Miami" {
                 customer = "Dade"
             }
-            print(validationString[0])
-            print(customer)
-            if customer.lowercased() == validationString.first?.lowercased() {
+
+            let siteFromLogin = validationString.first!.components(separatedBy: "//")
+            print(customer.lowercased())
+            print(siteFromLogin[1].lowercased())
+            if customer.lowercased() == siteFromLogin[1].lowercased() {
                 return true
             } else {
                 return false

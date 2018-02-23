@@ -36,9 +36,7 @@ class PDFReaderVC: UIViewController, UICollectionViewDataSource, UICollectionVie
         resendIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
         collectionView.delegate = self
         collectionView.dataSource = self
-        
 
- 
         documentName.text = PDFInstance?.first?.documentName!
         if PDFInstance?.first?.status == false {
             sendAgain()

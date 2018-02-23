@@ -13,7 +13,7 @@ import RealmSwift
 class LoginRequest {
     
     static func loginRequest(login: String, password: String, completion: @escaping (Bool, Int) -> Void) {
-            let url = "http://"+RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/token"
+            let url = RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/token"
             print(url)
         let parameters: Parameters = [
             "grant_type": "password",
@@ -26,7 +26,8 @@ class LoginRequest {
                 .responseJSON{ (response) in
 
                     let statusCode = response.response?.statusCode
-
+                    print(statusCode)
+                    print(response.result.value)
                     if statusCode == 404 || statusCode == 1001 {
                         completion(false, 404)
                     }

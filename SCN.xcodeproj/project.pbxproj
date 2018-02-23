@@ -40,6 +40,7 @@
 		FB9EEA6D20037EE400D2C3BE /* ChangeOrderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9EEA6C20037EE400D2C3BE /* ChangeOrderVC.swift */; };
 		FB9EEA6F2003828400D2C3BE /* OrderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9EEA6E2003828400D2C3BE /* OrderCollectionViewCell.swift */; };
 		FBA8151A1FFD29CC00796480 /* PDFSendingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA815191FFD29CC00796480 /* PDFSendingRequest.swift */; };
+		FBB567E220372C2C00FAF7C1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FBB567E120372C2B00FAF7C1 /* GoogleService-Info.plist */; };
 		FBB8276D1FF3FCF000540DB8 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB8276C1FF3FCF000540DB8 /* PhotoCollectionViewCell.swift */; };
 		FBF2A6DB200CD2FF0000DD40 /* DefaultSiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF2A6DA200CD2FF0000DD40 /* DefaultSiteVC.swift */; };
 		FBF2A6DD200CDD680000DD40 /* SettingsSitesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF2A6DC200CDD680000DD40 /* SettingsSitesModel.swift */; };
@@ -91,6 +92,7 @@
 		FB9EEA6E2003828400D2C3BE /* OrderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCollectionViewCell.swift; sourceTree = "<group>"; };
 		FBA815171FFCFF0A00796480 /* SCN.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SCN.entitlements; sourceTree = "<group>"; };
 		FBA815191FFD29CC00796480 /* PDFSendingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFSendingRequest.swift; sourceTree = "<group>"; };
+		FBB567E120372C2B00FAF7C1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FBB8276C1FF3FCF000540DB8 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		FBF2A6DA200CD2FF0000DD40 /* DefaultSiteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSiteVC.swift; sourceTree = "<group>"; };
 		FBF2A6DC200CDD680000DD40 /* SettingsSitesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSitesModel.swift; sourceTree = "<group>"; };
@@ -144,7 +146,6 @@
 		FB2B71111FE68ECB00C2837E /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				FBF2A6E6200CEFEB0000DD40 /* SettingsVC.swift */,
 				FBB8276C1FF3FCF000540DB8 /* PhotoCollectionViewCell.swift */,
 				FB2B71121FE68ED800C2837E /* PDFTableViewCell.swift */,
 				FB9EEA6E2003828400D2C3BE /* OrderCollectionViewCell.swift */,
@@ -159,6 +160,7 @@
 		FB455A8F200C962F009D747E /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				FBF2A6E6200CEFEB0000DD40 /* SettingsVC.swift */,
 				FB455A92200C9689009D747E /* DisplayTimeVC.swift */,
 				FBF2A6DA200CD2FF0000DD40 /* DefaultSiteVC.swift */,
 				FBF2A6EA200D08FB0000DD40 /* SaveUserNameVC.swift */,
@@ -212,6 +214,7 @@
 		FB7840091FE26488006495D5 /* SCN */ = {
 			isa = PBXGroup;
 			children = (
+				FBB567E120372C2B00FAF7C1 /* GoogleService-Info.plist */,
 				FBF2A6E1200CEC8B0000DD40 /* Resources */,
 				FBF2A6DE200CEBD00000DD40 /* Classes */,
 				FBA815171FFCFF0A00796480 /* SCN.entitlements */,
@@ -394,6 +397,7 @@
 				FB019F4C1FEA97BA00F27098 /* SourceSansPro-SemiBold.ttf in Resources */,
 				FB7840121FE26488006495D5 /* Assets.xcassets in Resources */,
 				FB7840101FE26488006495D5 /* Main.storyboard in Resources */,
+				FBB567E220372C2C00FAF7C1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,6 +430,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-SCN/Pods-SCN-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/IRLDocumentScanner/IRLDocumentScanner.framework",
 				"${BUILT_PRODUCTS_DIR}/PDFGenerator/PDFGenerator.framework",
 				"${BUILT_PRODUCTS_DIR}/QRCodeReader.swift/QRCodeReader.framework",
@@ -433,11 +438,15 @@
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework",
+				"${BUILT_PRODUCTS_DIR}/Siren/Siren.framework",
 				"${BUILT_PRODUCTS_DIR}/TOCropViewController/TOCropViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IRLDocumentScanner.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PDFGenerator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QRCodeReader.framework",
@@ -445,7 +454,10 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWXMLHash.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Siren.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TOCropViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

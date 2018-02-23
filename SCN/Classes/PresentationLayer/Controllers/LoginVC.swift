@@ -10,9 +10,12 @@ import UIKit
 import RealmSwift
 import Reachability
 import Crashlytics
+import Firebase
 
 class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, UIPickerViewDelegate{
     
+    
+
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var welcomeView: UIView!
     @IBOutlet weak var websiteInput: UITextField!
@@ -24,12 +27,26 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     @IBOutlet weak var dropDownLabel: UILabel!
     @IBOutlet weak var logoImageView: UIImageView!
     
+    var sitesList = [String]()
+    var ref: DatabaseReference!
     let reachability = Reachability()!
     let realm = RealmService.realm
-
     // MARK: - Navigation
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        ref = Database.database().reference()
+        
+        ref.observeSingleEvent(of: .value) { (snapshot) in
+            let value = snapshot.value as! [String: Any]
+
+            let parsedList = value["sites"] as! [[String: Any]]
+            for element in parsedList {
+                self.sitesList.append(element["url"] as! String)
+            }
+        }
+        
         self.hideKeyboardWhenTappedAround()
         view.isUserInteractionEnabled = true
         welcomeView.layer.cornerRadius = 20
@@ -82,47 +99,23 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
         return attributedString
     }
     
-    func siteIsValid(siteName: String) -> Bool {
-        var isValid = false
-        switch siteName.lowercased() {
-        case "dc.acceliplan.com":
-            isValid = true
-            break
-        case "dc-demo.accelidemo.com":
-            isValid = true
-            break
-        case "dc.acceliqc.com":
-            isValid = true
-            break
-        case "dade.acceliplan.com":
-            isValid = true
-            break
-        case "dade-demo.accelidemo.com":
-            isValid = true
-            break
-        case "dade.acceliqc.com":
-            isValid = true
-            break
-        case "broward.acceliplan.com":
-            isValid = true
-            break
-        case "broward-demo.accelidemo.com":
-            isValid = true
-            break
-        case "broward.acceliqc.com":
-            isValid = true
-            break
-        default:
-            isValid = false
-            break
+    func siteIsValid(siteName: String) -> String {
+
+        for element in sitesList {
+
+            if element.dropFirst(7) == siteName.lowercased() || element.dropFirst(8) == siteName.lowercased() || element == siteName.lowercased() {
+                return element.lowercased()
+            }
         }
-        return isValid
+        return ""
     }
     
     @IBAction func LoginAction(_ sender: UIButton) {
-        if reachability.connection == .none {
+        
+        if reachability.connection == .none || sitesList.isEmpty {
             popupWarning(titleMessage: "Warning", describing: "No internet Connection")
         } else {
+            
         activityIndicator.startAnimating()
         view.isUserInteractionEnabled = false
         let siteName = websiteInput.text
@@ -132,10 +125,10 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
             popupWarning(titleMessage: "Warning", describing: "All fields are required")
         } else {
             let isValid = siteIsValid(siteName: siteName!)
-            if isValid {
+            if isValid != "" {
                 RealmService.deleteWebsite()
                 let webSiteInstance = WebSiteModel()
-                webSiteInstance.websiteUrl = websiteInput.text!.lowercased()
+                webSiteInstance.websiteUrl = isValid
                 RealmService.writeIntoRealm(object: webSiteInstance)
                 LoginRequest.loginRequest(login: userNameInput.text!, password: passwordInput.text!){ (completion, code) in
                     switch completion {
@@ -181,7 +174,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     func addNewSite() {
         if RealmService.getSettingsSitesModel().count == 0 {
             let settingsSiteInstance = SettingsSitesModel()
-            settingsSiteInstance.siteName = websiteInput.text!.lowercased()
+            settingsSiteInstance.siteName = RealmService.getWebSiteModel()[0].websiteUrl!
             RealmService.writeIntoRealm(object: settingsSiteInstance)
         } else {
             let PDFInstance = realm.objects(SettingsSitesModel.self).filter("siteName = '"+RealmService.getWebSiteModel()[0].websiteUrl!+"'")
@@ -234,7 +227,8 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
             let sitesArray = RealmService.getSettingsSitesModel()
             for element in sitesArray {
                 if element.isDefault {
-                    websiteInput.text = element.siteName!
+                    let textWOHTTP = element.siteName!.components(separatedBy: "//")
+                    websiteInput.text = textWOHTTP[1]
                 }
             }
         }

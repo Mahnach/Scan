@@ -19,7 +19,7 @@ class RealmService {
                 //add QRCodeModel.programType (v2)
                 //add SettingsSitesModel.isDefault (v3)
                 //add LoginModel.tokenType (v4)
-            }
+            } //fb1dc06d870174e5a87ceb30122c6a7a14094bcbbec3882993f40fe266d8c23d744ab5547d7b74d1d5064e2df7d08e8d3781b5a96db1dc02bef9668e8cde05f2
         })
         let realm: Realm
         do {

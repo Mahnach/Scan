@@ -14,5 +14,8 @@ target 'SCN' do
   pod 'ReachabilitySwift'
   pod 'Fabric'
   pod 'Crashlytics'
+  pod 'Firebase/Database'
+  pod 'Firebase/Core'
+  pod 'Siren'
 
 end
