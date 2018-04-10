@@ -69,7 +69,6 @@ class RealmService {
     
     // MARK: Write
     static func writeIntoRealm(object: Object) {
-        
         try! realm.write {
             realm.add(object)
         }

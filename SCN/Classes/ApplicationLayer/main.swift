@@ -7,3 +7,11 @@
 //
 
 import Foundation
+import UIKit
+
+UIApplicationMain(CommandLine.argc,
+                  UnsafeMutableRawPointer(CommandLine.unsafeArgv).bindMemory(
+                    to: UnsafeMutablePointer<Int8>.self,
+                    capacity: Int(CommandLine.argc)),
+                  NSStringFromClass(AccelifyApplication.self),
+                  NSStringFromClass(AppDelegate.self))

@@ -13,7 +13,7 @@ import Crashlytics
 import Firebase
 import Siren
 
-@UIApplicationMain
+//@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
@@ -40,16 +40,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             RealmService.deleteDefaultUserName()
             UserDefaults.standard.set(true, forKey: "launchedBefore")
         }
+
+        NotificationCenter.default.addObserver(self, selector: #selector(q(notification:)), name: .ApplicationTimeout, object: nil)
         
         return true
     }
 
+    @objc func q(notification: NSNotification) {
+        if let wd = UIApplication.shared.delegate?.window {
+            var vc = wd!.rootViewController
+            if(vc is UINavigationController){
+                vc = (vc as! UINavigationController).visibleViewController
+            }
+            if !(vc is LoginVC){
+                RealmService.deleteLoginData()
+                let rootViewController = self.window!.rootViewController as!
+                UINavigationController
+                let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let loginVC = mainStoryboard.instantiateViewController(withIdentifier: "kLoginViewController") as! LoginVC
+                rootViewController.pushViewController(loginVC, animated: true)
+            }
+        }
+    }
+    
     func applicationWillResignActive(_ application: UIApplication) {
 
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {

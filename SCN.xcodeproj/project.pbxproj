@@ -42,6 +42,8 @@
 		FBA8151A1FFD29CC00796480 /* PDFSendingRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA815191FFD29CC00796480 /* PDFSendingRequest.swift */; };
 		FBB567E220372C2C00FAF7C1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FBB567E120372C2B00FAF7C1 /* GoogleService-Info.plist */; };
 		FBB8276D1FF3FCF000540DB8 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB8276C1FF3FCF000540DB8 /* PhotoCollectionViewCell.swift */; };
+		FBBCEB3520459430005F9BC9 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBCEB3420459430005F9BC9 /* main.swift */; };
+		FBBCEB3720459502005F9BC9 /* AccelifyApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBCEB3620459502005F9BC9 /* AccelifyApplication.swift */; };
 		FBF2A6DB200CD2FF0000DD40 /* DefaultSiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF2A6DA200CD2FF0000DD40 /* DefaultSiteVC.swift */; };
 		FBF2A6DD200CDD680000DD40 /* SettingsSitesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF2A6DC200CDD680000DD40 /* SettingsSitesModel.swift */; };
 		FBF2A6E7200CEFEB0000DD40 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF2A6E6200CEFEB0000DD40 /* SettingsVC.swift */; };
@@ -94,6 +96,8 @@
 		FBA815191FFD29CC00796480 /* PDFSendingRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFSendingRequest.swift; sourceTree = "<group>"; };
 		FBB567E120372C2B00FAF7C1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FBB8276C1FF3FCF000540DB8 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		FBBCEB3420459430005F9BC9 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		FBBCEB3620459502005F9BC9 /* AccelifyApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccelifyApplication.swift; sourceTree = "<group>"; };
 		FBF2A6DA200CD2FF0000DD40 /* DefaultSiteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSiteVC.swift; sourceTree = "<group>"; };
 		FBF2A6DC200CDD680000DD40 /* SettingsSitesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSitesModel.swift; sourceTree = "<group>"; };
 		FBF2A6E6200CEFEB0000DD40 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
@@ -310,6 +314,8 @@
 			isa = PBXGroup;
 			children = (
 				FB78400A1FE26488006495D5 /* AppDelegate.swift */,
+				FBBCEB3420459430005F9BC9 /* main.swift */,
+				FBBCEB3620459502005F9BC9 /* AccelifyApplication.swift */,
 			);
 			path = ApplicationLayer;
 			sourceTree = "<group>";
@@ -533,6 +539,8 @@
 				FBF2A6DB200CD2FF0000DD40 /* DefaultSiteVC.swift in Sources */,
 				FBA8151A1FFD29CC00796480 /* PDFSendingRequest.swift in Sources */,
 				FBF2A6E9200CFFFC0000DD40 /* SiteNameTableViewCell.swift in Sources */,
+				FBBCEB3520459430005F9BC9 /* main.swift in Sources */,
+				FBBCEB3720459502005F9BC9 /* AccelifyApplication.swift in Sources */,
 				FB455A95200C9E6E009D747E /* DIsplayTimeTableViewCell.swift in Sources */,
 				FB55B3031FE31CC4008408B9 /* QRCodeModel.swift in Sources */,
 				FB2B710D1FE6778E00C2837E /* ScanDocumentVC.swift in Sources */,

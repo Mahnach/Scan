@@ -40,11 +40,17 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
         
         ref.observeSingleEvent(of: .value) { (snapshot) in
             let value = snapshot.value as! [String: Any]
-
-            let parsedList = value["sites"] as! [[String: Any]]
-            for element in parsedList {
+            let parsedSitesList = value["sites"] as! [[String: Any]]
+            let parsedLogoutList = value["auto_logout"] as! [[String: Any]]
+            for element in parsedSitesList {
                 self.sitesList.append(element["url"] as! String)
             }
+            guard let numStr = parsedLogoutList[0]["time_in_minutes"] as? String else {
+                return
+            }
+            let timeInMinutes = Double(numStr)!
+            print(timeInMinutes)
+            UserDefaults.standard.set(timeInMinutes, forKey: "timeForLogout")
         }
         
         self.hideKeyboardWhenTappedAround()
@@ -240,9 +246,9 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     
     func popupWarning(titleMessage: String, describing: String) {
         let alert = UIAlertController(title: titleMessage, message: describing, preferredStyle: .alert)
-        present(alert, animated: true, completion: nil)
+        present(alert, animated: false, completion: nil)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
-            self.dismiss(animated: true, completion: nil)
+            self.dismiss(animated: false, completion: nil)
         }))
     }
 }
