@@ -14,7 +14,7 @@ class AccelifyApplication: UIApplication {
     
     // MARK: - Properties
     
-    private let timeoutInSeconds = UserDefaults.standard.double(forKey: "timeForLogout")
+    private let timeoutInSeconds = UserDefaults.standard.double(forKey: "timeForLogout") * 60.0;
 
     var idleTimer: Timer?
     
