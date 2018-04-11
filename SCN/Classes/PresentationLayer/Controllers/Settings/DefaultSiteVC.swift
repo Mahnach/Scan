@@ -39,6 +39,10 @@ class DefaultSiteVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         return RealmService.getSettingsSitesModel().count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "siteCell") as! SiteNameTableViewCell
         cell.siteName.text = RealmService.getSettingsSitesModel()[indexPath.row].siteName!

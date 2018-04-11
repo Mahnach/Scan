@@ -20,6 +20,8 @@ class DisplayTimeVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         tableView.dataSource = self
         
         switch RealmService.getDisplayTime()[0].displayTime {
+        case 86400:
+            choosenTime = "1 day"
         case 259200:
             choosenTime = "3 days"
         case 604800:
@@ -49,18 +51,24 @@ class DisplayTimeVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "displayTimeCell") as! DIsplayTimeTableViewCell
         switch indexPath.row {
         case 0:
-            cell.displayOption.text = "3 days"
+            cell.displayOption.text = "1 day"
         case 1:
-            cell.displayOption.text = "1 week"
+            cell.displayOption.text = "3 days"
         case 2:
-            cell.displayOption.text = "2 weeks"
+            cell.displayOption.text = "1 week"
         case 3:
-            cell.displayOption.text = "1 month"
+            cell.displayOption.text = "2 weeks"
         case 4:
+            cell.displayOption.text = "1 month"
+        case 5:
             cell.displayOption.text = "All documents"
         default:
             break
@@ -72,7 +80,7 @@ class DisplayTimeVC: UIViewController, UITableViewDataSource, UITableViewDelegat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 6
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -81,14 +89,16 @@ class DisplayTimeVC: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         switch indexPath.row {
         case 0:
-            displayTimeInstance.displayTime = 259200
+            displayTimeInstance.displayTime = 86400
         case 1:
-            displayTimeInstance.displayTime = 604800
+            displayTimeInstance.displayTime = 259200
         case 2:
-            displayTimeInstance.displayTime = 1209600
+            displayTimeInstance.displayTime = 604800
         case 3:
-            displayTimeInstance.displayTime = 2419200
+            displayTimeInstance.displayTime = 1209600
         case 4:
+            displayTimeInstance.displayTime = 2419200
+        case 5:
             displayTimeInstance.displayTime = -1
         default:
             displayTimeInstance.displayTime = 0

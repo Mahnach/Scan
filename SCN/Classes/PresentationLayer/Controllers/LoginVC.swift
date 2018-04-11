@@ -13,8 +13,6 @@ import Crashlytics
 import Firebase
 
 class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, UIPickerViewDelegate{
-    
-    
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var welcomeView: UIView!
@@ -26,55 +24,24 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     @IBOutlet weak var inputPasswordView: UIView!
     @IBOutlet weak var dropDownLabel: UILabel!
     @IBOutlet weak var logoImageView: UIImageView!
+    @IBOutlet weak var loginWithQRButton: UIButton!
     
     var sitesList = [String]()
     var ref: DatabaseReference!
     let reachability = Reachability()!
     let realm = RealmService.realm
+    let yourAttributes : [NSAttributedStringKey: Any] = [
+        NSAttributedStringKey.font : UIFont.systemFont(ofSize: 14),
+        NSAttributedStringKey.foregroundColor : UIColor(red: 171 / 255.0, green: 188 / 255.0, blue: 210 / 255.0, alpha: 1.0),
+        NSAttributedStringKey.underlineStyle : NSUnderlineStyle.styleSingle.rawValue]
+    
+    
     // MARK: - Navigation
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        ref = Database.database().reference()
-        
-        ref.observeSingleEvent(of: .value) { (snapshot) in
-            let value = snapshot.value as! [String: Any]
-            let parsedSitesList = value["sites"] as! [[String: Any]]
-            let parsedLogoutList = value["auto_logout"] as! [[String: Any]]
-            for element in parsedSitesList {
-                self.sitesList.append(element["url"] as! String)
-            }
-            guard let numStr = parsedLogoutList[0]["time_in_minutes"] as? String else {
-                return
-            }
-            let timeInMinutes = Double(numStr)!
-            print(timeInMinutes)
-            UserDefaults.standard.set(timeInMinutes, forKey: "timeForLogout")
-        }
-        
-        self.hideKeyboardWhenTappedAround()
-        view.isUserInteractionEnabled = true
-        welcomeView.layer.cornerRadius = 20
-        logoImageView.layer.cornerRadius = 15
-        logoImageView.layer.masksToBounds = true
-        activityIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
-        welcomeView.layer.masksToBounds = true
-        inputWebsiteView?.layer.cornerRadius = 6
-        inputUserNameView?.layer.cornerRadius = 6
-        inputPasswordView?.layer.cornerRadius = 6
-        activityIndicator.stopAnimating()
-        websiteInput.attributedPlaceholder = setLetterSpacing(placeholder: websiteInput.placeholder!)
-        userNameInput.attributedPlaceholder = setLetterSpacing(placeholder: userNameInput.placeholder!)
-        passwordInput.attributedPlaceholder = setLetterSpacing(placeholder: passwordInput.placeholder!)
-        do {
-            try reachability.startNotifier()
-        } catch {
-            print("Unable to start notifier")
-        }
-        websiteInput.delegate = self
-        userNameInput.delegate = self
-        passwordInput.delegate = self
+        preparingFirebase()
+        bindUI()
         preparingApplication()
     }
     
@@ -96,6 +63,55 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
         textField.resignFirstResponder()
         return true
     }
+    
+    func bindUI() {
+        self.hideKeyboardWhenTappedAround()
+        view.isUserInteractionEnabled = true
+        welcomeView.layer.cornerRadius = 20
+        logoImageView.layer.cornerRadius = 15
+        logoImageView.layer.masksToBounds = true
+        activityIndicator.transform = CGAffineTransform(scaleX: 2, y: 2)
+        welcomeView.layer.masksToBounds = true
+        inputWebsiteView?.layer.cornerRadius = 6
+        inputUserNameView?.layer.cornerRadius = 6
+        inputPasswordView?.layer.cornerRadius = 6
+        activityIndicator.stopAnimating()
+        websiteInput.attributedPlaceholder = setLetterSpacing(placeholder: websiteInput.placeholder!)
+        userNameInput.attributedPlaceholder = setLetterSpacing(placeholder: userNameInput.placeholder!)
+        passwordInput.attributedPlaceholder = setLetterSpacing(placeholder: passwordInput.placeholder!)
+        
+        let attributeString = NSMutableAttributedString(string: "Login with QR code",
+                                                        attributes: yourAttributes)
+        loginWithQRButton.setAttributedTitle(attributeString, for: .normal)
+        
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
+        websiteInput.delegate = self
+        userNameInput.delegate = self
+        passwordInput.delegate = self
+    }
+    
+    func preparingFirebase() {
+        ref = Database.database().reference()
+        ref.observeSingleEvent(of: .value) { (snapshot) in
+            let value = snapshot.value as! [String: Any]
+            let parsedSitesList = value["sites"] as! [[String: Any]]
+            let parsedLogoutList = value["auto_logout"] as! [[String: Any]]
+            for element in parsedSitesList {
+                self.sitesList.append(element["url"] as! String)
+            }
+            guard let numStr = parsedLogoutList[0]["time_in_minutes"] as? String else {
+                return
+            }
+            let timeInMinutes = Double(numStr)!
+            print(timeInMinutes)
+            UserDefaults.standard.set(timeInMinutes, forKey: "timeForLogout")
+        }
+    }
+    
     
     func setLetterSpacing(placeholder: String) -> NSMutableAttributedString {
         let text = placeholder
@@ -251,4 +267,9 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
             self.dismiss(animated: false, completion: nil)
         }))
     }
+    
+    @IBAction func loginWithQRAction(_ sender: UIButton) {
+        popupWarning(titleMessage: "Sorry...", describing: "We're Working On It!")
+    }
+    
 }
