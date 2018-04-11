@@ -41,14 +41,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set(true, forKey: "launchedBefore")
         }
 
-        NotificationCenter.default.addObserver(self, selector: #selector(q(notification:)), name: .ApplicationTimeout, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(autoLogoutPushController(notification:)), name: .ApplicationTimeout, object: nil)
         
         return true
     }
 
-    @objc func q(notification: NSNotification) {
-        if let wd = UIApplication.shared.delegate?.window {
-            var vc = wd!.rootViewController
+    @objc func autoLogoutPushController(notification: NSNotification) {
+        if let window = UIApplication.shared.delegate?.window {
+            var vc = window!.rootViewController
             if(vc is UINavigationController){
                 vc = (vc as! UINavigationController).visibleViewController
             }
