@@ -175,14 +175,21 @@ class PDFHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        documentIndex = indexPath.section
-        let choosenCell = tableView.cellForRow(at: indexPath) as! PDFTableViewCell
-        let choosenName = choosenCell.pdfName.text!
-        let predicate = NSPredicate(format: "documentName LIKE [c] %@ AND userLogin LIKE [c] %@", choosenName, RealmService.getLoginModel()[0].login!)
-        let documentPage = realm.objects(DocumentModel.self).filter(predicate)
+        let contentIsAvailable = UserDefaults.standard.bool(forKey: "contentIsEnabled")
 
-        PDFInstance = documentPage
-        performSegue(withIdentifier: "PDFSegue", sender: self)
+        if contentIsAvailable {
+            documentIndex = indexPath.section
+            let choosenCell = tableView.cellForRow(at: indexPath) as! PDFTableViewCell
+            let choosenName = choosenCell.pdfName.text!
+            let predicate = NSPredicate(format: "documentName LIKE [c] %@ AND userLogin LIKE [c] %@", choosenName, RealmService.getLoginModel()[0].login!)
+            let documentPage = realm.objects(DocumentModel.self).filter(predicate)
+            PDFInstance = documentPage
+            performSegue(withIdentifier: "PDFSegue", sender: self)
+        } else {
+            print("ACCESS DENIED")
+            // show popup
+            // check again option from firebase
+        }
     }
     
    
@@ -192,6 +199,7 @@ class PDFHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             viewController.PDFInstance = PDFInstance
         }
     }
+
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
@@ -235,7 +243,7 @@ class PDFHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         navigationController?.pushViewController(ScanQRViewController, animated: false)
     }
     
-    @IBAction func editAction(_ sender: UIButton) {
+    @IBAction func moveToSettingsVCAction(_ sender: UIButton) {
         let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let SettingsViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kSettingsViewController") as! SettingsVC
         SettingsViewController.pushFromHistory = true

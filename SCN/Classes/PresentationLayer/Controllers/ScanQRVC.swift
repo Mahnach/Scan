@@ -16,7 +16,7 @@ class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
 
     @IBOutlet weak var stepOneView: UIView!
     let realm = RealmService.realm
-    
+    var loginWithQR = false
     lazy var reader: QRCodeReader = QRCodeReader()
     lazy var readerVC: QRCodeReaderViewController = {
         let builder = QRCodeReaderViewControllerBuilder {
@@ -44,14 +44,19 @@ class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
     
     func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
         reader.stopScanning()
-        let existingObject = realm.object(ofType: DocumentModel.self, forPrimaryKey: RealmService.getDocumentData().last?.id)
-        try! realm.write {
-            existingObject?.qrCode = RealmService.getQRCode().last!.qrCode
-            realm.add(existingObject!, update: true)
+        
+        if loginWithQR {
+            // do something with QR
+        } else {
+            let existingObject = realm.object(ofType: DocumentModel.self, forPrimaryKey: RealmService.getDocumentData().last?.id)
+            try! realm.write {
+                existingObject?.qrCode = RealmService.getQRCode().last!.qrCode
+                realm.add(existingObject!, update: true)
+            }
+            let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let ScanDocumentViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kScanDocumentViewController") as! ScanDocumentVC
+            navigationController?.pushViewController(ScanDocumentViewController, animated: false)
         }
-        let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let ScanDocumentViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kScanDocumentViewController") as! ScanDocumentVC
-        navigationController?.pushViewController(ScanDocumentViewController, animated: false)
     }
     
     func reader(_ reader: QRCodeReaderViewController, didSwitchCamera newCaptureDevice: AVCaptureDeviceInput) {
@@ -60,7 +65,9 @@ class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
     
     func readerDidCancel(_ reader: QRCodeReaderViewController) {
         reader.stopScanning()
-        if RealmService.getDocumentData().count != 0 {
+        if loginWithQR {
+            pushLoginController()
+        } else if RealmService.getDocumentData().count != 0 {
             if let existingObject = realm.object(ofType: DocumentModel.self, forPrimaryKey: RealmService.getDocumentData().last?.id) {
                 try! realm.write {
                     realm.delete(existingObject)
@@ -76,15 +83,11 @@ class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
                 documentInstance.id = id
                 documentInstance.userLogin = RealmService.getLoginModel()[0].login!
                 RealmService.writeIntoRealm(object: documentInstance)
-                let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-                let StartWorkViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kStartWorkViewController") as! StartWorkVC
-                navigationController?.pushViewController(StartWorkViewController, animated: false)
+                pushStartWorkController()
             }
 
         } else {
-            let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-            let StartWorkViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kStartWorkViewController") as! StartWorkVC
-            navigationController?.pushViewController(StartWorkViewController, animated: false)
+            pushStartWorkController()
         }
     }
     
@@ -128,9 +131,11 @@ class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
                 } else {
                     let alert = UIAlertController(title: "Camera Check", message: "Access to the camera has been prohibited. Please enable it in the Settings app to continue.", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
-                        let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-                        let StartWorkViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kStartWorkViewController") as! StartWorkVC
-                        self.navigationController?.pushViewController(StartWorkViewController, animated: false)
+                        if self.loginWithQR {
+                            self.pushLoginController()
+                        } else {
+                            self.pushStartWorkController()
+                        }
                     }))
                     self.present(alert, animated: true, completion: nil)
                 }
@@ -139,6 +144,18 @@ class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
         readerVC.modalPresentationStyle = .formSheet
         readerVC.navigationController?.setNavigationBarHidden(true, animated: true)
         navigationController?.pushViewController(readerVC, animated: true)
+    }
+    
+    func pushStartWorkController() {
+        let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let StartWorkViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kStartWorkViewController") as! StartWorkVC
+        navigationController?.pushViewController(StartWorkViewController, animated: false)
+    }
+    
+    func pushLoginController() {
+        let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let LoginViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kLoginViewController") as! LoginVC
+        self.navigationController?.pushViewController(LoginViewController, animated: true)
     }
 
 }

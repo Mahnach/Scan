@@ -40,8 +40,8 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        preparingFirebase()
-        bindUI()
+        fetchFromFirebase()
+        setupUI()
         preparingApplication()
     }
     
@@ -64,7 +64,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
         return true
     }
     
-    func bindUI() {
+    func setupUI() {
         self.hideKeyboardWhenTappedAround()
         view.isUserInteractionEnabled = true
         welcomeView.layer.cornerRadius = 20
@@ -94,21 +94,32 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
         passwordInput.delegate = self
     }
     
-    func preparingFirebase() {
+    func fetchFromFirebase() {
         ref = Database.database().reference()
         ref.observeSingleEvent(of: .value) { (snapshot) in
             let value = snapshot.value as! [String: Any]
             let parsedSitesList = value["sites"] as! [[String: Any]]
             let parsedLogoutList = value["auto_logout"] as! [[String: Any]]
+            let parsedSecurityList = value["content_enable"] as! [[String: Any]]
+            
             for element in parsedSitesList {
                 self.sitesList.append(element["url"] as! String)
             }
-            guard let numStr = parsedLogoutList[0]["time_in_minutes"] as? String else {
+            guard let timeForLogout = parsedLogoutList[0]["time_in_minutes"] as? String else {
                 return
             }
-            let timeInMinutes = Double(numStr)!
-            print(timeInMinutes)
+            guard let contentEnable = parsedSecurityList[0]["value"] as? String else {
+                return
+            }
+            let timeInMinutes = Double(timeForLogout)!
+            var contentIsEnabled = false
+            if contentEnable == "yes" {
+                contentIsEnabled = true
+            } else {
+                contentIsEnabled = false
+            }
             UserDefaults.standard.set(timeInMinutes, forKey: "timeForLogout")
+            UserDefaults.standard.set(contentIsEnabled, forKey: "contentIsEnabled")
         }
     }
     
@@ -121,10 +132,8 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
         return attributedString
     }
     
-    func siteIsValid(siteName: String) -> String {
-
+    func siteNameifValid(siteName: String) -> String {
         for element in sitesList {
-
             if element.dropFirst(7) == siteName.lowercased() || element.dropFirst(8) == siteName.lowercased() || element == siteName.lowercased() {
                 return element.lowercased()
             }
@@ -146,7 +155,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
             self.view.isUserInteractionEnabled = true
             popupWarning(titleMessage: "Warning", describing: "All fields are required")
         } else {
-            let isValid = siteIsValid(siteName: siteName!)
+            let isValid = siteNameifValid(siteName: siteName!)
             if isValid != "" {
                 RealmService.deleteWebsite()
                 let webSiteInstance = WebSiteModel()
@@ -269,7 +278,13 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     }
     
     @IBAction func loginWithQRAction(_ sender: UIButton) {
-        popupWarning(titleMessage: "Sorry...", describing: "We're Working On It!")
+        //popupWarning(titleMessage: "Sorry...", describing: "We're Working On It!")
+        
+        let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let ScanQRViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kScanQRViewController") as! ScanQRVC
+        ScanQRViewController.loginWithQR = true
+        navigationController?.pushViewController(ScanQRViewController, animated: false)
+        
     }
     
 }
