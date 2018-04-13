@@ -10,6 +10,7 @@ import UIKit
 import PDFGenerator
 import Alamofire
 import RealmSwift
+import Firebase
 
 class PDFHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
   
@@ -18,7 +19,7 @@ class PDFHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     @IBOutlet weak var documentPreview: UIImageView!
     
     var documents = [DocumentModel]()
-    
+    var ref: DatabaseReference!
     var PDFInstance: Results<DocumentModel>?
     var documentIndex = 0
     let realm = RealmService.realm
@@ -51,6 +52,9 @@ class PDFHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         if documents.count == 0 {
             noDocumentsForUser()
         }
+        
+        checkDocumentAccess()
+        
         PDFTableView.reloadData()
     }
     
@@ -134,8 +138,17 @@ class PDFHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         case false:
             cell.statusImageView.image  = UIImage(named: "statusCancel.png")
         }
-
         cell.layer.cornerRadius = 15
+        
+        let contentIsAvailable = UserDefaults.standard.bool(forKey: "contentIsEnabled")
+        // stream data from firebase, when changed = change option
+        print(contentIsAvailable)
+        if !contentIsAvailable {
+            cell.isUserInteractionEnabled = false
+        } else {
+            cell.isUserInteractionEnabled = true
+        }
+        
         return cell
     }
     
@@ -175,9 +188,7 @@ class PDFHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let contentIsAvailable = UserDefaults.standard.bool(forKey: "contentIsEnabled")
-
-        if contentIsAvailable {
+        
             documentIndex = indexPath.section
             let choosenCell = tableView.cellForRow(at: indexPath) as! PDFTableViewCell
             let choosenName = choosenCell.pdfName.text!
@@ -185,11 +196,6 @@ class PDFHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             let documentPage = realm.objects(DocumentModel.self).filter(predicate)
             PDFInstance = documentPage
             performSegue(withIdentifier: "PDFSegue", sender: self)
-        } else {
-            print("ACCESS DENIED")
-            // show popup
-            // check again option from firebase
-        }
     }
     
    
@@ -248,6 +254,32 @@ class PDFHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         let SettingsViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kSettingsViewController") as! SettingsVC
         SettingsViewController.pushFromHistory = true
         navigationController?.pushViewController(SettingsViewController, animated: true)
+    }
+    
+    func showPopupWarning(titleMessage: String, describing: String) {
+        let alert = UIAlertController(title: titleMessage, message: describing, preferredStyle: .alert)
+        present(alert, animated: false, completion: nil)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
+            self.dismiss(animated: false, completion: nil)
+        }))
+    }
+    
+    func checkDocumentAccess() {
+        ref = Database.database().reference()
+        ref.observeSingleEvent(of: .value) { (snapshot) in
+            let value = snapshot.value as! [String: Any]
+            let parsedSecurityList = value["content_enable"] as! [[String: Any]]
+            guard let contentEnable = parsedSecurityList[0]["value"] as? String else {
+                return
+            }
+            var contentIsEnabled = false
+            if contentEnable == "yes" {
+                contentIsEnabled = true
+            } else {
+                contentIsEnabled = false
+            }
+            UserDefaults.standard.set(contentIsEnabled, forKey: "contentIsEnabled")
+        }
     }
 
 }

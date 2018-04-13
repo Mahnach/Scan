@@ -141,8 +141,6 @@ final public class QRCodeReaderView: UIView, QRCodeReaderDisplayable {
     labelText.textColor = UIColor(red: 106/255, green: 180/255, blue: 164/255, alpha: 1.0)
     labelText.textAlignment = .center
     labelText.text = "Scan QR code"
-    
-    
     myView.addSubview(labelTitle)
     myView.addSubview(labelText)
     self.cameraView.addSubview(myView)

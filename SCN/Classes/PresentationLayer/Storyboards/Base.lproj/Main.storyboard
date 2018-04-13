@@ -679,6 +679,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="tuQ-Ld-8b3"/>
                     </view>
+                    <navigationItem key="navigationItem" id="pOe-Vm-Unz"/>
                     <size key="freeformSize" width="375" height="667"/>
                     <connections>
                         <outlet property="clickPlusView" destination="Dyy-3F-eab" id="ZQO-VC-gef"/>
@@ -987,7 +988,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Q7M-xO-w0p"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="mYX-Tb-gab"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xmg-S0-1RE" userLabel="First Responder" sceneMemberID="firstResponder"/>

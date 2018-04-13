@@ -143,10 +143,6 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     
     @IBAction func LoginAction(_ sender: UIButton) {
         
-        if reachability.connection == .none || sitesList.isEmpty {
-            popupWarning(titleMessage: "Warning", describing: "No internet Connection")
-        } else {
-            
         activityIndicator.startAnimating()
         view.isUserInteractionEnabled = false
         let siteName = websiteInput.text
@@ -155,6 +151,9 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
             self.view.isUserInteractionEnabled = true
             popupWarning(titleMessage: "Warning", describing: "All fields are required")
         } else {
+            if reachability.connection == .none || sitesList.isEmpty {
+                popupWarning(titleMessage: "Warning", describing: "No internet Connection")
+            } else {
             let isValid = siteNameifValid(siteName: siteName!)
             if isValid != "" {
                 RealmService.deleteWebsite()
@@ -278,12 +277,12 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     }
     
     @IBAction func loginWithQRAction(_ sender: UIButton) {
-        //popupWarning(titleMessage: "Sorry...", describing: "We're Working On It!")
+        popupWarning(titleMessage: "Sorry...", describing: "We're Working On It!")
         
-        let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let ScanQRViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kScanQRViewController") as! ScanQRVC
-        ScanQRViewController.loginWithQR = true
-        navigationController?.pushViewController(ScanQRViewController, animated: false)
+//        let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+//        let ScanQRViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kScanQRViewController") as! ScanQRVC
+//        ScanQRViewController.loginWithQR = true
+//        navigationController?.pushViewController(ScanQRViewController, animated: false)
         
     }
     

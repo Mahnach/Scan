@@ -161,7 +161,7 @@ class PhotoPreviewVC: UIViewController, UICollectionViewDataSource, UICollection
     }
     
     @IBAction func addNextAction(_ sender: UIButton) {
-        if (RealmService.getDocumentData().last?.imageArrayData.count)! > 9 {
+        if (RealmService.getDocumentData().last?.imageArrayData.count)! > 4 {
             let alert = UIAlertController(title: "Warning", message: "Maximum 5 photos.", preferredStyle: .alert)
             self.present(alert, animated: true, completion: nil)
             alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
