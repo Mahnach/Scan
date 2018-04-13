@@ -47,20 +47,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     @objc func autoLogoutPushController(notification: NSNotification) {
-        if let window = UIApplication.shared.delegate?.window {
-            var vc = window!.rootViewController
-            if(vc is UINavigationController){
-                vc = (vc as! UINavigationController).visibleViewController
-            }
-            if !(vc is LoginVC){
-                RealmService.deleteLoginData()
-                let rootViewController = self.window!.rootViewController as!
-                UINavigationController
-                let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let loginVC = mainStoryboard.instantiateViewController(withIdentifier: "kLoginViewController") as! LoginVC
-                rootViewController.pushViewController(loginVC, animated: true)
-            }
-        }
+//        if let window = UIApplication.shared.delegate?.window {
+//            var vc = window!.rootViewController
+//            if(vc is UINavigationController){
+//                vc = (vc as! UINavigationController).visibleViewController
+//            }
+//            if !(vc is LoginVC){
+//                RealmService.deleteLoginData()
+//                let rootViewController = self.window!.rootViewController as!
+//                UINavigationController
+//                let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//                let loginVC = mainStoryboard.instantiateViewController(withIdentifier: "kLoginViewController") as! LoginVC
+//                rootViewController.pushViewController(loginVC, animated: true)
+//            }
+//        }
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
