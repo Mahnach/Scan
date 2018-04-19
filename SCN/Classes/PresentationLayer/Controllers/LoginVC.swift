@@ -40,7 +40,17 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        fetchFromFirebase()
+        fetchFromFirebase() {(completion) in
+            if !completion {
+                let alert = UIAlertController(title: "Service Unavailable", message: "Please try again later.", preferredStyle: .alert)
+                self.present(alert, animated: false, completion: nil)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
+                    self.dismiss(animated: false, completion: nil)
+                    exit(0)
+                }))
+            }
+        }
+
         setupUI()
         preparingApplication()
     }
@@ -94,23 +104,37 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
         passwordInput.delegate = self
     }
     
-    func fetchFromFirebase() {
+    func fetchFromFirebase(completion: @escaping (Bool) -> Void){
         ref = Database.database().reference()
         ref.observeSingleEvent(of: .value) { (snapshot) in
             let value = snapshot.value as! [String: Any]
-            let parsedSitesList = value["sites"] as! [[String: Any]]
-            let parsedLogoutList = value["auto_logout"] as! [[String: Any]]
-            let parsedSecurityList = value["content_enable"] as! [[String: Any]]
+            guard let parsedSitesList = value["sites"] as? [[String: Any]] else {
+                completion(false)
+                return
+            }
+
+            guard let parsedLogoutList = value["auto_logout"] as? [[String: Any]] else {
+                completion(false)
+                return
+            }
             
+            guard let parsedSecurityList = value["content_enable"] as? [[String: Any]] else {
+                completion(false)
+                return
+            }
+
             for element in parsedSitesList {
                 self.sitesList.append(element["url"] as! String)
             }
             guard let timeForLogout = parsedLogoutList[0]["time_in_minutes"] as? String else {
+                completion(false)
                 return
             }
             guard let contentEnable = parsedSecurityList[0]["value"] as? String else {
+                completion(false)
                 return
             }
+          
             let timeInMinutes = Double(timeForLogout)!
             var contentIsEnabled = false
             if contentEnable == "yes" {
@@ -120,7 +144,9 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
             }
             UserDefaults.standard.set(timeInMinutes, forKey: "timeForLogout")
             UserDefaults.standard.set(contentIsEnabled, forKey: "contentIsEnabled")
+            completion(true)
         }
+
     }
     
     
@@ -146,13 +172,17 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
         activityIndicator.startAnimating()
         view.isUserInteractionEnabled = false
         let siteName = websiteInput.text
+
         if (websiteInput.text?.isEmpty)! || (userNameInput.text?.isEmpty)! || (passwordInput.text?.isEmpty)! {
             activityIndicator.stopAnimating()
             self.view.isUserInteractionEnabled = true
             popupWarning(titleMessage: "Warning", describing: "All fields are required")
         } else {
-            if reachability.connection == .none || sitesList.isEmpty {
+            if (reachability.connection == .none) {
                 popupWarning(titleMessage: "Warning", describing: "No internet Connection")
+            }
+            if (sitesList.isEmpty) {
+                
             } else {
             let isValid = siteNameifValid(siteName: siteName!)
             if isValid != "" {

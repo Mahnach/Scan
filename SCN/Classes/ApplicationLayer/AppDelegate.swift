@@ -47,12 +47,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     @objc func autoLogoutPushController(notification: NSNotification) {
+        print("LOGOUT")
 //        if let window = UIApplication.shared.delegate?.window {
 //            var vc = window!.rootViewController
 //            if(vc is UINavigationController){
 //                vc = (vc as! UINavigationController).visibleViewController
 //            }
-//            if !(vc is LoginVC){
+//            print(vc)
+//            if !(vc is LoginVC || vc is UIAlertController){
 //                RealmService.deleteLoginData()
 //                let rootViewController = self.window!.rootViewController as!
 //                UINavigationController
