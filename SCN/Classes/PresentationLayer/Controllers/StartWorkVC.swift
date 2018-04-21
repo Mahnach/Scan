@@ -77,6 +77,7 @@ class StartWorkVC: UIViewController{
     }
     
     @IBAction func goToScanQRAction(_ sender: UIButton) {
+        UserDefaults.standard.set(false, forKey: "loginWithQR")
         let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let ScanQRViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kScanQRViewController") as! ScanQRVC
         navigationController?.pushViewController(ScanQRViewController, animated: false)

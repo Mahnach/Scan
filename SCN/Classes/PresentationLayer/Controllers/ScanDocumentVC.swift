@@ -61,7 +61,13 @@ class ScanDocumentVC: UIViewController {
     }
     
     func siteEqualToQR() -> Bool {
-        let siteUrl = RealmService.getWebSiteModel()[0].websiteUrl!
+        var siteUrl = ""
+        if RealmService.getWebSiteModel().count > 0 {
+            siteUrl = RealmService.getWebSiteModel()[0].websiteUrl!
+        } else {
+            siteUrl = "http://dade-demo.accelidemo.com"
+        }
+
         var validationString = siteUrl.components(separatedBy: "-")
         if validationString.count == 1 {
             validationString = (validationString.first?.components(separatedBy: "."))!

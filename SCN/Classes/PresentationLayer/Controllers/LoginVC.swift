@@ -28,6 +28,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     
     var sitesList = [String]()
     var ref: DatabaseReference!
+    var loadingWhileLogin = false
     let reachability = Reachability()!
     let realm = RealmService.realm
     let yourAttributes : [NSAttributedStringKey: Any] = [
@@ -39,7 +40,6 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     // MARK: - Navigation
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         fetchFromFirebase() {(completion) in
             if !completion {
                 let alert = UIAlertController(title: "Service Unavailable", message: "Please try again later.", preferredStyle: .alert)
@@ -53,6 +53,40 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
 
         setupUI()
         preparingApplication()
+        
+        if loadingWhileLogin {
+            if RealmService.getQRLoginData()[0].isValid {
+                activityIndicator.startAnimating()
+                view.isUserInteractionEnabled = false
+                UserDefaults.standard.set(true, forKey: "loginWithQR")
+                LoginRequest.loginRequest(login: RealmService.getQRLoginData()[0].login!, password: RealmService.getQRLoginData()[0].password!, completion: { (completion, code) in
+                    switch completion {
+                    case true:
+                        self.pushCorrectController()
+                        break
+                    case false:
+                        if code == 404 {
+                            self.activityIndicator.stopAnimating()
+                            self.view.isUserInteractionEnabled = true
+                            self.popupWarning(titleMessage: "Server error", describing: "Please, try again later.")
+                        } else {
+                            self.activityIndicator.stopAnimating()
+                            self.view.isUserInteractionEnabled = true
+                            self.popupWarning(titleMessage: "Warning", describing: "User not found.")
+                        }
+                        break
+                    }
+                })
+
+
+            } else {
+                self.popupWarning(titleMessage: "Warning", describing: "QR code is invalid for authorization")
+            }
+            
+        } else {
+            activityIndicator.stopAnimating()
+            view.isUserInteractionEnabled = true
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -142,11 +176,12 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
             } else {
                 contentIsEnabled = false
             }
+            print(timeInMinutes)
             UserDefaults.standard.set(timeInMinutes, forKey: "timeForLogout")
             UserDefaults.standard.set(contentIsEnabled, forKey: "contentIsEnabled")
             completion(true)
         }
-
+        
     }
     
     
@@ -169,6 +204,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     
     @IBAction func LoginAction(_ sender: UIButton) {
         
+        
         activityIndicator.startAnimating()
         view.isUserInteractionEnabled = false
         let siteName = websiteInput.text
@@ -184,11 +220,11 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
             if (sitesList.isEmpty) {
                 
             } else {
-            let isValid = siteNameifValid(siteName: siteName!)
-            if isValid != "" {
+            let siteUrl = siteNameifValid(siteName: siteName!)
+            if siteUrl != "" {
                 RealmService.deleteWebsite()
                 let webSiteInstance = WebSiteModel()
-                webSiteInstance.websiteUrl = isValid
+                webSiteInstance.websiteUrl = siteUrl
                 RealmService.writeIntoRealm(object: webSiteInstance)
                 LoginRequest.loginRequest(login: userNameInput.text!, password: passwordInput.text!){ (completion, code) in
                     switch completion {
@@ -295,7 +331,6 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
         if LoginModel.tokenIsValid() {
             pushCorrectController()
         }
-        
     }
     
     func popupWarning(titleMessage: String, describing: String) {
@@ -307,13 +342,16 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     }
     
     @IBAction func loginWithQRAction(_ sender: UIButton) {
-        popupWarning(titleMessage: "Sorry...", describing: "We're Working On It!")
-        
-//        let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-//        let ScanQRViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kScanQRViewController") as! ScanQRVC
-//        ScanQRViewController.loginWithQR = true
-//        navigationController?.pushViewController(ScanQRViewController, animated: false)
-        
+//        popupWarning(titleMessage: "Sorry...", describing: "We're Working On It!")
+        if (reachability.connection == .none) {
+            popupWarning(titleMessage: "Warning", describing: "No internet Connection")
+        } else {
+            UserDefaults.standard.set(true, forKey: "loginWithQR")
+            let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let ScanQRViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kScanQRViewController") as! ScanQRVC
+            navigationController?.pushViewController(ScanQRViewController, animated: false)
+        }
+ 
     }
     
 }

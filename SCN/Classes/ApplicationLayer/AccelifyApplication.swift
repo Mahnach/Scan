@@ -14,8 +14,7 @@ class AccelifyApplication: UIApplication {
     
     // MARK: - Properties
     
-    private let timeoutInSeconds = UserDefaults.standard.double(forKey: "timeForLogout") * 60.0
-
+    private let timeoutInSeconds = 1800.0 //UserDefaults.standard.double(forKey: "timeForLogout") * 60.0
     var idleTimer: Timer?
     
     
@@ -29,7 +28,6 @@ class AccelifyApplication: UIApplication {
     
     override func sendEvent(_ event: UIEvent) {
         super.sendEvent(event)
-        
         if idleTimer != nil {
             resetIdleTimer()
         }
@@ -48,6 +46,7 @@ class AccelifyApplication: UIApplication {
     }
     
     func resetIdleTimer() {
+        
         if let idleTimer = idleTimer {
             idleTimer.invalidate()
         }
@@ -56,7 +55,7 @@ class AccelifyApplication: UIApplication {
                                          target: self,
                                          selector: #selector(idleTimerExceeded),
                                          userInfo: nil,
-                                         repeats: false)
+                                         repeats: true)
     }
     
     @objc func idleTimerExceeded() {

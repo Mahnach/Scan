@@ -21,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         Fabric.with([Crashlytics.self])
         FirebaseApp.configure()
-        
         let siren = Siren.shared
         siren.alertType = .force
         siren.alertMessaging = SirenAlertMessaging(updateTitle: "Update Available", updateMessage: "A new version of Accelify Scan is available. Please update application now.", updateButtonMessage: "Update", nextTimeButtonMessage: "Update", skipVersionButtonMessage: "Update")
@@ -40,29 +39,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             RealmService.deleteDefaultUserName()
             UserDefaults.standard.set(true, forKey: "launchedBefore")
         }
-
-        NotificationCenter.default.addObserver(self, selector: #selector(autoLogoutPushController(notification:)), name: .ApplicationTimeout, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(autoLogoutPushController(notification:)), name: .ApplicationTimeout, object: nil)
         
         return true
     }
 
     @objc func autoLogoutPushController(notification: NSNotification) {
         print("LOGOUT")
-//        if let window = UIApplication.shared.delegate?.window {
-//            var vc = window!.rootViewController
-//            if(vc is UINavigationController){
-//                vc = (vc as! UINavigationController).visibleViewController
-//            }
-//            print(vc)
-//            if !(vc is LoginVC || vc is UIAlertController){
-//                RealmService.deleteLoginData()
-//                let rootViewController = self.window!.rootViewController as!
-//                UINavigationController
-//                let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//                let loginVC = mainStoryboard.instantiateViewController(withIdentifier: "kLoginViewController") as! LoginVC
-//                rootViewController.pushViewController(loginVC, animated: true)
-//            }
-//        }
+        if let window = UIApplication.shared.delegate?.window {
+            var vc = window!.rootViewController
+            if(vc is UINavigationController){
+                vc = (vc as! UINavigationController).visibleViewController
+            }
+            print(vc)
+            if !(vc is LoginVC){
+                RealmService.deleteLoginData()
+                let rootViewController = self.window!.rootViewController as!
+                UINavigationController
+                let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let loginVC = mainStoryboard.instantiateViewController(withIdentifier: "kLoginViewController") as! LoginVC
+                rootViewController.pushViewController(loginVC, animated: true)
+            }
+        }
     }
     
     func applicationWillResignActive(_ application: UIApplication) {

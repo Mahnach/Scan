@@ -146,6 +146,11 @@ final public class QRCodeReaderView: UIView, QRCodeReaderDisplayable {
     self.cameraView.addSubview(myView)
     //cameraView.bringSubview(toFront: myView)
     
+    let isQRLogin = UserDefaults.standard.bool(forKey: "loginWithQR")
+    if isQRLogin {
+        labelText.isHidden = true
+        labelTitle.text = "Login with QR"
+    }
     
     
     

@@ -238,6 +238,7 @@ class PDFHistoryVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     @IBAction func addNewDocumentAction(_ sender: UIButton) {
+        UserDefaults.standard.set(false, forKey: "loginWithQR")
         let documentInstance = DocumentModel()
         let id = documentInstance.incrementID()
         documentInstance.id = id

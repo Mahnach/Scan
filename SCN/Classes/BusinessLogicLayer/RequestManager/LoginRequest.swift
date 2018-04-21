@@ -13,8 +13,14 @@ import RealmSwift
 class LoginRequest {
     
     static func loginRequest(login: String, password: String, completion: @escaping (Bool, Int) -> Void) {
-            let url = RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/token"
-            print(url)
+        let isQRLogin = UserDefaults.standard.bool(forKey: "loginWithQR")
+        var url = ""
+        if isQRLogin {
+            url = "http://dade-demo.accelidemo.com/PLAN/token"
+        } else {
+            url = RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/token"
+        }
+        print(url)
         let parameters: Parameters = [
             "grant_type": "password",
             "username": login,

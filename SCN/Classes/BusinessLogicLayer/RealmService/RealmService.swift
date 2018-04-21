@@ -13,13 +13,14 @@ import Security
 class RealmService {
 
     static var realm: Realm = {
-        let configuration = Realm.Configuration(encryptionKey: getKey() as Data, schemaVersion: 4, migrationBlock: { migration, oldSchemaVersion in
+        let configuration = Realm.Configuration(encryptionKey: getKey() as Data, schemaVersion: 5, migrationBlock: { migration, oldSchemaVersion in
             if (oldSchemaVersion < 1) {
                 //add QRCodeModel.fileUniqueName (v1)
                 //add QRCodeModel.programType (v2)
                 //add SettingsSitesModel.isDefault (v3)
                 //add LoginModel.tokenType (v4)
-            } //fb1dc06d870174e5a87ceb30122c6a7a14094bcbbec3882993f40fe266d8c23d744ab5547d7b74d1d5064e2df7d08e8d3781b5a96db1dc02bef9668e8cde05f2
+                //add QRLoginModel (v5)
+            } //3b1435ca73930b1ef06928a3b9926f4328c586d4156bb4e26239282f00580dac78578e6db9dbd9f6bba6e319e73a1b41df6e7ab9233f2a9757a9523ff57328f8
         })
         let realm: Realm
         do {
@@ -75,6 +76,11 @@ class RealmService {
     }
     
     // MARK: Get
+    static func getQRLoginData() -> Results<QRLoginModel> {
+        let data = realm.objects(QRLoginModel.self)
+        return data
+    }
+    
     static func getCounterFromCurrentSession() -> Results<CurrentSessionModel> {
         let data = realm.objects(CurrentSessionModel.self)
         return data
@@ -116,6 +122,14 @@ class RealmService {
     }
     
     // MARK: Delete
+    static func deleteQRLogin() {
+        if RealmService.getQRLoginData().count > 0 {
+            try! realm.write {
+                realm.delete(RealmService.getQRLoginData())
+            }
+        }
+    }
+    
     static func deleteQRCode() {
         if RealmService.getQRCode().count > 0 {
             try! realm.write {

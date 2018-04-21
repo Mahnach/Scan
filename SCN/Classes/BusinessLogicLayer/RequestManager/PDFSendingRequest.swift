@@ -37,12 +37,18 @@ class PDFSendingRequest {
         let url: String?
         let parameters: [String: Any]?
         
+        var urlPrefix = ""
+        if RealmService.getWebSiteModel().count > 0 {
+            urlPrefix = RealmService.getWebSiteModel()[0].websiteUrl!
+        } else {
+            urlPrefix = "http://dade-demo.accelidemo.com"
+        }
         //address = .oldEventId // MANUAL CHOICE
         
         switch address {
             
         case .eventId:
-            url = RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/api/mobile/eventattachmentupload"
+            url = urlPrefix+"/PLAN/api/mobile/eventattachmentupload"
             parameters = [
                 "EventId": (xmlQR["data"]["EventId"].element?.text)!,
                 "AttachmentFileName": documentName,
@@ -50,7 +56,7 @@ class PDFSendingRequest {
             ]
             print("event")
         case .student:
-            url = RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/api/mobile/studentattachmentupload"
+            url = urlPrefix+"/PLAN/api/mobile/studentattachmentupload"
             parameters = [
                 "CommonStudentId": (xmlQR["data"]["StudentAutoId"].element?.text)!,
                 "ProgramType": (xmlQR["data"]["ProgramType"].element?.text)!,
@@ -59,7 +65,7 @@ class PDFSendingRequest {
             ]
             print("student")
         case .distribution:
-            url = RealmService.getWebSiteModel()[0].websiteUrl!+"/PLAN/api/mobile/parentresponseattachmentupload"
+            url = urlPrefix+"/PLAN/api/mobile/parentresponseattachmentupload"
             parameters = [
                 "FileUniqueName": (xmlQR["data"]["FileUniqueName"].element?.text)!,
                 "AttachmentFileName": documentName,
@@ -68,7 +74,7 @@ class PDFSendingRequest {
             print("distribution")
             
         case .oldEventId:
-            url = RealmService.getWebSiteModel()[0].websiteUrl!+"/Plan/Public/MobileAttachmentUpload"
+            url = urlPrefix+"/Plan/Public/MobileAttachmentUpload"
             parameters = [
                 "EventId": (xmlQR["data"]["EventId"].element?.text)!,
                 "AttachmentFileName": documentName,

@@ -25,6 +25,7 @@
 		FB455A9A200CA287009D747E /* DisplayTimeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB455A99200CA287009D747E /* DisplayTimeModel.swift */; };
 		FB456605200F81A30051DFFA /* DocumentNameGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB456604200F81A30051DFFA /* DocumentNameGenerator.swift */; };
 		FB4838C41FE946560049FFB9 /* CurrentSessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4838C31FE946560049FFB9 /* CurrentSessionModel.swift */; };
+		FB49AD9D208B43D900CBD8FB /* StringConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB49AD9C208B43D900CBD8FB /* StringConverter.swift */; };
 		FB55B3001FE31C84008408B9 /* RealmService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB55B2FF1FE31C84008408B9 /* RealmService.swift */; };
 		FB55B3031FE31CC4008408B9 /* QRCodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB55B3021FE31CC4008408B9 /* QRCodeModel.swift */; };
 		FB6022C51FE530AC00FF0831 /* PhotoPreviewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6022C41FE530AC00FF0831 /* PhotoPreviewVC.swift */; };
@@ -44,6 +45,7 @@
 		FBB8276D1FF3FCF000540DB8 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBB8276C1FF3FCF000540DB8 /* PhotoCollectionViewCell.swift */; };
 		FBBCEB3520459430005F9BC9 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBCEB3420459430005F9BC9 /* main.swift */; };
 		FBBCEB3720459502005F9BC9 /* AccelifyApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBCEB3620459502005F9BC9 /* AccelifyApplication.swift */; };
+		FBDBCBB4208A59E60003F395 /* QRLoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBDBCBB3208A59E60003F395 /* QRLoginModel.swift */; };
 		FBF2A6DB200CD2FF0000DD40 /* DefaultSiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF2A6DA200CD2FF0000DD40 /* DefaultSiteVC.swift */; };
 		FBF2A6DD200CDD680000DD40 /* SettingsSitesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF2A6DC200CDD680000DD40 /* SettingsSitesModel.swift */; };
 		FBF2A6E7200CEFEB0000DD40 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBF2A6E6200CEFEB0000DD40 /* SettingsVC.swift */; };
@@ -76,6 +78,7 @@
 		FB455A99200CA287009D747E /* DisplayTimeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayTimeModel.swift; sourceTree = "<group>"; };
 		FB456604200F81A30051DFFA /* DocumentNameGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentNameGenerator.swift; sourceTree = "<group>"; };
 		FB4838C31FE946560049FFB9 /* CurrentSessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentSessionModel.swift; sourceTree = "<group>"; };
+		FB49AD9C208B43D900CBD8FB /* StringConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringConverter.swift; sourceTree = "<group>"; };
 		FB55B2FF1FE31C84008408B9 /* RealmService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmService.swift; sourceTree = "<group>"; };
 		FB55B3021FE31CC4008408B9 /* QRCodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeModel.swift; sourceTree = "<group>"; };
 		FB6022C41FE530AC00FF0831 /* PhotoPreviewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPreviewVC.swift; sourceTree = "<group>"; };
@@ -98,6 +101,7 @@
 		FBB8276C1FF3FCF000540DB8 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		FBBCEB3420459430005F9BC9 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		FBBCEB3620459502005F9BC9 /* AccelifyApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccelifyApplication.swift; sourceTree = "<group>"; };
+		FBDBCBB3208A59E60003F395 /* QRLoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRLoginModel.swift; sourceTree = "<group>"; };
 		FBF2A6DA200CD2FF0000DD40 /* DefaultSiteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSiteVC.swift; sourceTree = "<group>"; };
 		FBF2A6DC200CDD680000DD40 /* SettingsSitesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSitesModel.swift; sourceTree = "<group>"; };
 		FBF2A6E6200CEFEB0000DD40 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
@@ -193,6 +197,7 @@
 				FBF2A6DC200CDD680000DD40 /* SettingsSitesModel.swift */,
 				FBF2A6EE200D0E990000DD40 /* DefaultUserNameModel.swift */,
 				FB456604200F81A30051DFFA /* DocumentNameGenerator.swift */,
+				FBDBCBB3208A59E60003F395 /* QRLoginModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -326,6 +331,7 @@
 				FBF77F2A1FEBC2D400B07161 /* UIViewController+Keyboard.swift */,
 				FBF77F2C1FEBC31E00B07161 /* FileManager+CleanDirectory.swift */,
 				FB2E92171FF3959D00302EDC /* String+RemoveWhiteSpaces.swift */,
+				FB49AD9C208B43D900CBD8FB /* StringConverter.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -515,6 +521,7 @@
 				FB78400D1FE26488006495D5 /* LoginVC.swift in Sources */,
 				FB455A9A200CA287009D747E /* DisplayTimeModel.swift in Sources */,
 				FBF77F2B1FEBC2D400B07161 /* UIViewController+Keyboard.swift in Sources */,
+				FBDBCBB4208A59E60003F395 /* QRLoginModel.swift in Sources */,
 				FB7840251FE2B3E1006495D5 /* StartWorkVC.swift in Sources */,
 				FB456605200F81A30051DFFA /* DocumentNameGenerator.swift in Sources */,
 				FB6022C51FE530AC00FF0831 /* PhotoPreviewVC.swift in Sources */,
@@ -523,6 +530,7 @@
 				FBF2A6EB200D08FB0000DD40 /* SaveUserNameVC.swift in Sources */,
 				FB862B542008A865003BFAD6 /* LoginModel.swift in Sources */,
 				FB2B710B1FE6760E00C2837E /* ScanQRVC.swift in Sources */,
+				FB49AD9D208B43D900CBD8FB /* StringConverter.swift in Sources */,
 				FB78400B1FE26488006495D5 /* AppDelegate.swift in Sources */,
 				FB9EEA6D20037EE400D2C3BE /* ChangeOrderVC.swift in Sources */,
 				FB55B3001FE31C84008408B9 /* RealmService.swift in Sources */,
