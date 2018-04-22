@@ -38,10 +38,10 @@ class PDFSendingRequest {
         let parameters: [String: Any]?
         
         var urlPrefix = ""
-        if RealmService.getWebSiteModel().count > 0 {
-            urlPrefix = RealmService.getWebSiteModel()[0].websiteUrl!
-        } else {
+        if RealmService.getQRLoginData().count > 0 {
             urlPrefix = "http://dade-demo.accelidemo.com"
+        } else {
+            urlPrefix = RealmService.getWebSiteModel()[0].websiteUrl!
         }
         //address = .oldEventId // MANUAL CHOICE
         
@@ -82,6 +82,7 @@ class PDFSendingRequest {
             ]
             print("oldEventId")
         }
+        print(url!)
         return (url!, parameters!)
     }
     
@@ -110,8 +111,8 @@ class PDFSendingRequest {
                 .validate()
                 .responseJSON{ (response) in
                     let statusCode = response.response?.statusCode
-                    //print(statusCode)
-                    //print(response.result.value)
+                    print(statusCode)
+                    print(response.result.value)
                     if statusCode == 404 || statusCode == 1001 {
                         completion(false, 404)
                     }

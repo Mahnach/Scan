@@ -134,22 +134,39 @@ final public class QRCodeReaderView: UIView, QRCodeReaderDisplayable {
     labelTitle.textAlignment = .center
     labelTitle.font = UIFont.boldSystemFont(ofSize: 17)
     labelTitle.text = "STEP 1"
-
+    myView.addSubview(labelTitle)
+    
     let labelText: UILabel = UILabel()
     labelText.frame = CGRect(x: cameraView.frame.width / 2 - 75, y: 48, width: 150, height: 20)
     //labelText.textColor = UIColor.black
     labelText.textColor = UIColor(red: 106/255, green: 180/255, blue: 164/255, alpha: 1.0)
     labelText.textAlignment = .center
     labelText.text = "Scan QR code"
-    myView.addSubview(labelTitle)
     myView.addSubview(labelText)
     self.cameraView.addSubview(myView)
     //cameraView.bringSubview(toFront: myView)
     
+    
+    let QRLoginLabelText: UILabel = UILabel()
+    QRLoginLabelText.frame = CGRect(x: cameraView.frame.width / 2 - 150, y: 20, width: 300, height: 50)
+    QRLoginLabelText.numberOfLines = 2
+    QRLoginLabelText.textColor = UIColor(red: 35/255, green: 181/255, blue: 163/255, alpha: 1.0)
+    QRLoginLabelText.textAlignment = .center
+    QRLoginLabelText.font = UIFont.systemFont(ofSize: 16)
+    QRLoginLabelText.text = "To login, scan the login QR code from the main Accelify application"
+    myView.addSubview(QRLoginLabelText)
+    self.cameraView.addSubview(myView)
+    
     let isQRLogin = UserDefaults.standard.bool(forKey: "loginWithQR")
     if isQRLogin {
         labelText.isHidden = true
-        labelTitle.text = "Login with QR"
+        labelTitle.isHidden = true
+        QRLoginLabelText.isHidden = false
+    } else {
+        QRLoginLabelText.isHidden = true
+        labelText.isHidden = false
+        labelTitle.isHidden = false
+        
     }
     
     

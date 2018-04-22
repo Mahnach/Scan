@@ -669,7 +669,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="tuQ-Ld-8b3" firstAttribute="trailing" secondItem="Dyy-3F-eab" secondAttribute="trailing" constant="61" id="1be-vJ-GhF"/>
                             <constraint firstItem="ekM-x0-AEC" firstAttribute="width" secondItem="zVY-wz-Wv4" secondAttribute="width" id="HK7-W3-WSN"/>
                             <constraint firstItem="ekM-x0-AEC" firstAttribute="centerX" secondItem="tuQ-Ld-8b3" secondAttribute="centerX" id="Jln-wz-P1G"/>
                             <constraint firstItem="Dyy-3F-eab" firstAttribute="centerX" secondItem="tuQ-Ld-8b3" secondAttribute="centerX" id="MIm-Fa-ToK"/>

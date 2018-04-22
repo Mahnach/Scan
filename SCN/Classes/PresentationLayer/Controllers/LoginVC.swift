@@ -28,7 +28,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
     
     var sitesList = [String]()
     var ref: DatabaseReference!
-    var loadingWhileLogin = false
+    var loginWithQR = false
     let reachability = Reachability()!
     let realm = RealmService.realm
     let yourAttributes : [NSAttributedStringKey: Any] = [
@@ -50,11 +50,11 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
                 }))
             }
         }
-
+        
         setupUI()
         preparingApplication()
         
-        if loadingWhileLogin {
+        if loginWithQR {
             if RealmService.getQRLoginData()[0].isValid {
                 activityIndicator.startAnimating()
                 view.isUserInteractionEnabled = false
@@ -77,16 +77,14 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
                         break
                     }
                 })
-
-
             } else {
                 self.popupWarning(titleMessage: "Warning", describing: "QR code is invalid for authorization")
             }
-            
         } else {
             activityIndicator.stopAnimating()
             view.isUserInteractionEnabled = true
         }
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -214,12 +212,10 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
             self.view.isUserInteractionEnabled = true
             popupWarning(titleMessage: "Warning", describing: "All fields are required")
         } else {
-            if (reachability.connection == .none) {
+            if (reachability.connection == .none || sitesList.isEmpty) {
                 popupWarning(titleMessage: "Warning", describing: "No internet Connection")
             }
-            if (sitesList.isEmpty) {
-                
-            } else {
+            else {
             let siteUrl = siteNameifValid(siteName: siteName!)
             if siteUrl != "" {
                 RealmService.deleteWebsite()
@@ -328,6 +324,7 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
                 }
             }
         }
+        
         if LoginModel.tokenIsValid() {
             pushCorrectController()
         }
@@ -351,7 +348,6 @@ class LoginVC: UIViewController, UITextFieldDelegate, UIDocumentPickerDelegate, 
             let ScanQRViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kScanQRViewController") as! ScanQRVC
             navigationController?.pushViewController(ScanQRViewController, animated: false)
         }
- 
     }
     
 }

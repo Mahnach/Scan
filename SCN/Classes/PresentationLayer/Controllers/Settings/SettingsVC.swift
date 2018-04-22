@@ -44,8 +44,18 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         case 0:
             cell.settingName.text = "Display PDF History"
         case 1:
+            if RealmService.getQRLoginData().count > 0 {
+                cell.isUserInteractionEnabled = false
+            } else {
+                cell.isUserInteractionEnabled = true
+            }
             cell.settingName.text = "Default website"
         case 2:
+            if RealmService.getQRLoginData().count > 0 {
+                cell.isUserInteractionEnabled = false
+            } else {
+                cell.isUserInteractionEnabled = true
+            }
             cell.settingName.text = "Save username"
         case 3:
             cell.settingName.text = "Logout"
@@ -78,6 +88,7 @@ class SettingsVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     func logout() {
         RealmService.deleteLoginData()
+        RealmService.deleteQRLogin()
         let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let LoginViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kLoginViewController") as! LoginVC
         self.navigationController?.pushViewController(LoginViewController, animated: true)

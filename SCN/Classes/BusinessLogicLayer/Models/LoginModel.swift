@@ -26,6 +26,7 @@ class LoginModel: Object {
             let timeFromLoginDouble = Double(timeFromLogin)
             if timeFromLoginDouble > RealmService.getLoginModel()[0].timeLifeInSeconds {
                 RealmService.deleteLoginData()
+                RealmService.deleteQRLogin()
                 return false
             } else {
                 return true

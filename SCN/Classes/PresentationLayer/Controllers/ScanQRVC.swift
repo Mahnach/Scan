@@ -64,7 +64,7 @@ class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
         reader.stopScanning()
         
         if isQRLogin {
-            pushLoginController(loadingWhileLogin: true)
+            pushLoginController(loginWithQR: true)
         } else {
             let existingObject = realm.object(ofType: DocumentModel.self, forPrimaryKey: RealmService.getDocumentData().last?.id)
             try! realm.write {
@@ -88,7 +88,8 @@ class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
             if LoginModel.tokenIsValid() {
                 pushCorrectController()
             } else {
-                pushLoginController(loadingWhileLogin: false)
+                UserDefaults.standard.set(false, forKey: "loginWithQR")
+                pushLoginController(loginWithQR: false)
             }
         } else {
             if RealmService.getDocumentData().count != 0 {
@@ -188,7 +189,7 @@ class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
                     let alert = UIAlertController(title: "Camera Check", message: "Access to the camera has been prohibited. Please enable it in the Settings app to continue.", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .`default`, handler: { _ in
                         if self.isQRLogin {
-                            self.pushLoginController(loadingWhileLogin: false)
+                            self.pushLoginController(loginWithQR: false)
                         } else {
                             self.pushStartWorkController()
                         }
@@ -208,10 +209,10 @@ class ScanQRVC: UIViewController, QRCodeReaderViewControllerDelegate {
         navigationController?.pushViewController(StartWorkViewController, animated: false)
     }
     
-    func pushLoginController(loadingWhileLogin: Bool) {
+    func pushLoginController(loginWithQR: Bool) {
         let MainScreenStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let LoginViewController = MainScreenStoryboard.instantiateViewController(withIdentifier: "kLoginViewController") as! LoginVC
-        LoginViewController.loadingWhileLogin = loadingWhileLogin
+        LoginViewController.loginWithQR = loginWithQR
         self.navigationController?.pushViewController(LoginViewController, animated: false)
     }
 
