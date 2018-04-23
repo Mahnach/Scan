@@ -25,7 +25,6 @@ class RealmService {
         let realm: Realm
         do {
             realm = try Realm(configuration: configuration)
-            
         } catch {
             print(error.localizedDescription)
             return try! Realm()

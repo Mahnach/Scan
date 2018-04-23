@@ -14,7 +14,7 @@ class AccelifyApplication: UIApplication {
     
     // MARK: - Properties
     
-    private let timeoutInSeconds = 1800.0 //UserDefaults.standard.double(forKey: "timeForLogout") * 60.0
+    private var timeoutInSeconds = 1800.0
     var idleTimer: Timer?
     
     
@@ -22,8 +22,15 @@ class AccelifyApplication: UIApplication {
     
     override init() {
         super.init()
-
+        
+        timeoutInSeconds = isKeyPresentInUserDefaults() ? UserDefaults.standard.double(forKey: "timeForLogout") * 60.0 : 1800.0
+        print(timeoutInSeconds)
         resetIdleTimer()
+    }
+    
+    func isKeyPresentInUserDefaults() -> Bool {
+        let key = "timeForLogout"
+        return UserDefaults.standard.object(forKey: key) != nil
     }
     
     override func sendEvent(_ event: UIEvent) {
